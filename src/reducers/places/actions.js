@@ -1,7 +1,5 @@
-export const GET_SLIDES = 'GET_SLIDES';
-export const GET_TEST = 'GET_TEST';
-export const ADD_TEST = 'ADD_TEST';
 export const GET_PLACES = 'GET_PLACES';
+export const GET_RECOMMENDATIONS = 'GET_RECOMMENDATIONS';
 
 export function getPlaces(data) {
   return ({ apiUrl, authorization }) => {
@@ -14,7 +12,28 @@ export function getPlaces(data) {
         method: 'GET',
       })
       .then(response => {
-        console.log('en getPlaces', response);
+        const responseJSON = response.json();
+        if(response.status !== 200)
+          throw responseJSON;
+        else 
+          return responseJSON
+      })
+    };
+  };
+}
+
+export function getRecommendations(data) {
+  return ({ apiUrl, authorization }) => {
+     
+    const  url = apiUrl() + 'search/recommendations?' + authorization + '&v=20180323&limit=10&ll='+data.ll+'&query='+ data.query;
+
+    return {
+      type: GET_RECOMMENDATIONS,
+      payload: fetch(url, {
+        method: 'GET',
+      })
+      .then(response => {
+
         const responseJSON = response.json();
         if(response.status !== 200)
           throw responseJSON;
