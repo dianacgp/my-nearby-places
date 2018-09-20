@@ -101,6 +101,7 @@ class Places extends Component {
           </Button>
         </Header>
         <FlatList
+          initialNumToRender={3}
           refreshing={places_refreshing}
           data = {places.toJS()}
           onRefresh={this.searchPlaces}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Scene, Router, Actions, Reducer, ActionConst, Overlay, Tabs, Modal, Drawer, Stack, Lightbox } from 'react-native-router-flux';
 import Places from './places';
+import Place from './place';
 import Recommendations from './recommendations';
 import colors from '../../colors'
 
@@ -49,8 +50,10 @@ const Scenes = () => (
       <Modal key="modal" hideNavBar>
         <Lightbox key="lightbox"  type={ActionConst.RESET}>
           <Stack key="root" titleStyle={{ alignSelf: 'center' }}>
-            <Scene key="recommendations" component={Recommendations} title="Recommendations" initial type={ActionConst.RESET} />
+            <Scene key="recommendations" component={Recommendations} initial type={ActionConst.RESET} />
             <Scene key="places" component={Places} title="Places" type={ActionConst.RESET} />
+            <Scene key="modal_place" component={Place} hideNavBar={false}  />
+
           </Stack>
         </Lightbox>
       </Modal>

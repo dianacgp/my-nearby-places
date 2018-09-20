@@ -37,5 +37,21 @@ export default StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+  },
+  labels: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  badge: {
+    marginVertical: 5,
+    marginRight: 10,
+  },
+  withoutImage: {
+    borderColor: colors.gray_medium,
+    borderWidth: 1,
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });

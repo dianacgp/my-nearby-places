@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput, FlatList, TouchableHighlight, Geolocation } from 'react-native';
-import { getRecommendations } from '../reducers/places/actions';
+import { getPlaces } from '../reducers/places/actions';
 import { connect } from 'react-redux';
 import styles from '../styles/styles';
 import { Actions } from 'react-native-router-flux';
-import { Container, Header, Item, Input, Icon, Button, Text, Card, CardItem, Body, Thumbnail, List, ListItem, Left, Right } from 'native-base';
+import { Container, Header, Item, Input, Icon, Button, Text, Card, CardItem, Body, Thumbnail, List, ListItem, Left, Right, Badge } from 'native-base';
+import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
+import colors from '../../colors'
 
-class recommendations extends Component {
+class places extends Component {
 
   state = {
     placeName: '',
-    recommendations: [],
+    places: [],
     latitude: null,
     longitude: null,
     ll: '',
@@ -39,8 +41,8 @@ class recommendations extends Component {
   }
 
 
-  getRecommendations = (data) => {
-    this.props.getRecommendations(data)
+  getPlaces = (data) => {
+    this.props.getPlaces(data)
     .then((response) => {
       console.log('response', response);
     })
@@ -50,17 +52,33 @@ class recommendations extends Component {
   }
 
   renderItem = (item, index) => {
+
     return(
-      <List>
-        <ListItem thumbnail>
+        <ListItem key={index} thumbnail onPress={()=> {Actions.modal_place({item: item})}}>
           <Left>
-            <Thumbnail square  source={{ uri: item.photo.prefix + '100x100' + item.photo.suffix }} />
+           
+              { item.photo !== undefined ? 
+              <Thumbnail square large source={{ uri: item.photo.prefix + '200x200' + item.photo.suffix }} />
+              :
+              <View style={styles.withoutImage}>
+                <IconFontAwesome name="picture-o" size={30} color={colors.gray_medium} />
+              </View>
+              }
+           
           </Left>
           <Body>
             <Text>{item.venue.name}</Text>
+            <Text note numberOfLines={1}> {item.venue.location.formattedAddress}</Text>
+
+            { item.venue.categories && item.venue.categories.map( (category, i) =>
+            <View  key={i} style={styles.labels}>
+              <Badge primary  style={styles.badge}>
+                <Text>{category.shortName}</Text>
+              </Badge>
+            </View>
+            )} 
           </Body>
         </ListItem>
-      </List>
     )
   }
 
@@ -70,11 +88,11 @@ class recommendations extends Component {
       searchTerm: text,
     })
   }
-  searchrecommendations = () => {
+  searchplaces = () => {
     const { searchTerm, ll } = this.state;
     const data = {query: searchTerm, ll: ll };
 
-    this.props.getRecommendations(data)
+    this.props.getPlaces(data)
     .then((response) => {
       console.log('response', response);
     })
@@ -84,7 +102,7 @@ class recommendations extends Component {
    
   }
   render() {
-    const { recommendations,  recommendations_refreshing} = this.props;
+    const { places,  places_refreshing} = this.props;
 
     return (
       <Container>
@@ -96,20 +114,22 @@ class recommendations extends Component {
               placeholder="Search" />
           </Item>
           <Button
-            onPress={this.searchrecommendations}
+            onPress={this.searchplaces}
             transparent>
             <Text>Search</Text>
           </Button>
         </Header>
+        
         <FlatList
-          refreshing={recommendations_refreshing}
-          data = {recommendations.toJS()}
-          onRefresh={this.searchrecommendations}
+          refreshing={places_refreshing}
+          data = {places.toJS()}
+          onRefresh={this.searchplaces}
           keyExtractor={(item, index) => index.toString()}
           renderItem = {({ item, index }) =>         
             this.renderItem(item, index)
           }
         />
+      
 
       </Container>
     );
@@ -118,10 +138,10 @@ class recommendations extends Component {
 
 const mapStateToProps = state => {
   return {
-    recommendations_refreshing: state.places.recommendations_refreshing,
-    recommendations: state.places.recommendations,
-    recommendations_error: state.places.recommendations_error,
+    places_refreshing: state.places.places_refreshing,
+    places: state.places.places,
+    places_error: state.places.places_error,
   }
 }
 
-export default connect(state => ( mapStateToProps), { getRecommendations })(recommendations);
+export default connect(state => ( mapStateToProps), { getPlaces })(places);
