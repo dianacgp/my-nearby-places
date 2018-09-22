@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, InteractionManager } from 'react-native';
 import Gallery from 'react-native-image-gallery';
-import styles from '../../styles/styles';
-import Spinner from './spinner';
+import styles from './styles';
+import Spinner from '../spinner';
 
 export default class ModalGallery extends Component {
   constructor(props) {

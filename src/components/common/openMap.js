@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Popup } from 'react-native-map-link'
 
-export default class open extends Component {
-
-
+export default class OpenMap extends Component {
 
   render() {
 

@@ -13,6 +13,11 @@ export default StyleSheet.create({
   navigationBarStyle: {
     backgroundColor: 'white'
   },
+  navigationBarStyleBlack: {
+    backgroundColor: 'black',
+    borderBottomWidth: 0,
+    borderBottomColor: 'black'
+  },
   //Search bar
   inputSearch: {
     backgroundColor: colors.inputSearch,
@@ -20,37 +25,18 @@ export default StyleSheet.create({
   textButtonSearch: {
     color: colors.principal,
   },
- 
+  //common
   row: {
     flexDirection: 'row',
   },
-
-  //place
-  imagePlace: {
-    borderColor: colors.grayLighter,
-    borderWidth: 1,
-    width: 80,
-    height: 80,
+  center: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
   },
-  labels: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+  flex: {
+    flex: 1,
   },
-  badge: {
-    marginVertical: 5,
-    marginRight: 10,
-    backgroundColor: colors.badge,
-    borderRadius: 15,
-    paddingHorizontal: 8,
-    paddingVertical: 5,
-  },
-  textBadge: {
-    color: 'white',
-    fontSize: 12,
-  },
+
   //suggestions
   containerSuggestions: {
     flexDirection: 'row',
@@ -78,28 +64,8 @@ export default StyleSheet.create({
     fontSize: 12,
   },
 
-  name: {
-    color: colors.textSecondary,
-    fontWeight: '600',
-    marginBottom: 5,
-    fontSize: 14,
+  //text
 
-  },
-  bodyItem: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    flexDirection: 'row', 
-  },
-  containerItem: {
-    padding: 10,
-    flexDirection: 'column', 
-    borderBottomColor: colors.grayLight,
-    borderBottomWidth: 1,
-  },
-  body: {
-    flex: 1,
-    flexDirection: 'column',
-  },
   textVerySmall: {
     color: colors.textSecondary,
     fontWeight:'100',
@@ -110,58 +76,29 @@ export default StyleSheet.create({
     fontWeight:'100',
     fontSize: 12,
   },
-  withoutImage: {
-    borderColor: colors.grayLighter,
-    borderWidth: 1,
-    width: 80,
-    height: 80,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
+  textBold: {
+    fontWeight:'600',
   },
-  link: {
+  textLink: {
+    color: colors.principal,
+    marginBottom: 5,
     fontSize: 12,
-    fontWeight: 'bold',
-    color: colors.link,
   },
-  avatar: {
-    height: 30,
-    width: 30,
-    borderRadius: 15,
-  },
-  //gallery
 
-  containerGallery: {
-    backgroundColor: 'black',
-    height: 150,
-    width: width,
-    flexDirection: 'row',
+  //place
+  textNameBig: {
+    color: colors.textSecondary,
+    fontWeight: '600',
+    marginBottom: 5,
+    fontSize: 16,
   },
-  center: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  containerPlace: {
+    padding: 20,
   },
-  flex: {
-    flex: 1,
-  },
-  imageGallery: {
-    width: width / 2,
-    height: width / 2,
-    borderColor: 'white',
-    borderWidth: 1,
-  },
-  imageGalleryComplete: {
-    width: width,
-    height: width / 2,
-  },
-  gallery: {
-    backgroundColor: 'black',
-    flex: 1,
-  },
-  navigationBarStyleBlack: {
-    backgroundColor: 'black',
-    borderBottomWidth: 0,
-    borderBottomColor: 'black'
-  },
+
+  //padding and margin 
+  marginBottomSmall: {
+    marginBottom: 5,
+  }
 
 });

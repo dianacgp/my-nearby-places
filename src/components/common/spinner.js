@@ -13,7 +13,6 @@ export default class Spinner extends Component {
   render() {
     const { animating, color, style } = this.props;
 
-    console.log('en spinner')
     return (
       <View style={[styles.flex, styles.center, style ]}>
       {

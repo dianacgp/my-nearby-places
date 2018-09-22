@@ -5,9 +5,8 @@ import { connect } from 'react-redux';
 import styles from '../styles/styles';
 import { Actions } from 'react-native-router-flux';
 import { Container, Header, Item, Input, Icon, Button, Text, Body, Thumbnail, List, ListItem, Left, Right, Badge } from 'native-base';
-import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import colors from '../../colors'
-const General = require('../functions/general.js');
+import CardSuggestion from './common/cardSuggestion';
 import OpenMap from './common/openMap';
 
 
@@ -59,58 +58,7 @@ class places extends Component {
   setOpenMap = (value) => {
     this.setState({ openMap: value });
   }
-
-
-  renderItem = (item, index) => {
-
-    return(
-      <TouchableOpacity 
-        key={index} 
-        style={styles.containerItem}
-        onPress={()=> {Actions.modal_place({item: item})}}>
-        <View style={styles.bodyItem}>
-          <View 
-            style={styles.body}
-            >
-            <Text style={styles.name}>{item.venue.name}</Text>
-            <View style={styles.row}>
-              {item.venue.location &&
-                <Text style={styles.textVerySmall}>{General.getLocation(item.venue.location)}  <Text style={styles.link} onPress={()=> {this.setState({openMap: true, place: item.venue})}} >Open in Maps</Text></Text>
-              }
-             
-            </View> 
-
-            { item.venue.categories && item.venue.categories.map( (category, i) =>
-            <View  key={i} style={styles.labels}>
-              <View primary  style={styles.badge}>
-                <Text style={styles.textBadge}>{category.shortName}</Text>
-              </View>
-            </View>
-            )} 
-          </View>
-          <View>
-            { item.photo !== undefined ? 
-            <Image  style={styles.imagePlace} source={{ uri: item.photo.prefix + '200x200' + item.photo.suffix }} />
-            :
-            <View style={styles.withoutImage}>
-              <IconFontAwesome name="picture-o" size={30} color={colors.grayLighter} />
-            </View>
-            }
-          </View>
-        </View>
-        <View style={styles.bodyItem}>
-          { item.snippets.count > 0 && item.snippets.items.map((snippet, i) =>
-            snippet.detail !== undefined &&
-            <View key={i}>
-              <Text style={styles.textSmall}>{snippet.detail.object.text}</Text>
-            </View>
-          )}
-        </View>
-
-      </TouchableOpacity>
-    )
-  }
-
+  
   onChangeText = (text) => {
 
     this.setState({
@@ -129,6 +77,9 @@ class places extends Component {
       console.log('e', e)
     })
    
+  }
+  set = ( state ) => {
+    this.setState(state);
   }
   render() {
     const { places,  places_refreshing} = this.props;
@@ -182,11 +133,10 @@ class places extends Component {
           onRefresh={this.searchplaces}
           keyExtractor={(item, index) => index.toString()}
           renderItem = {({ item, index }) =>         
-            this.renderItem(item, index)
+            <CardSuggestion item={item} index={index} set={this.set}/>
           }
         />
-      
-
+    
       </Container>
     );
   }
