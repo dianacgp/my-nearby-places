@@ -6,10 +6,9 @@ import styles from '../styles/styles';
 import { Actions } from 'react-native-router-flux';
 import { Container, Header, Item, Input, Icon, Button, Text, Body, Thumbnail, List, ListItem, Left, Right, Badge } from 'native-base';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
-import { Popup } from 'react-native-map-link'
 import colors from '../../colors'
 const General = require('../functions/general.js');
-import OpenMap from './openMap';
+import OpenMap from './common/openMap';
 
 
 class places extends Component {
@@ -63,17 +62,7 @@ class places extends Component {
 
 
   renderItem = (item, index) => {
-    //console.log('item', item)
-    if (item.snippets.count > 0){
-      item.snippets.items.map((snippet, i) => {
-        if (snippet.detail !== undefined) {
-          console.log('snippet.detail ', snippet.detail.object )
-          
-        }
 
-      });
-
-    }
     return(
       <TouchableOpacity 
         key={index} 

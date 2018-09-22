@@ -128,6 +128,40 @@ export default StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 15,
-  }
+  },
+  //gallery
+
+  containerGallery: {
+    backgroundColor: 'black',
+    height: 150,
+    width: width,
+    flexDirection: 'row',
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  flex: {
+    flex: 1,
+  },
+  imageGallery: {
+    width: width / 2,
+    height: width / 2,
+    borderColor: 'white',
+    borderWidth: 1,
+  },
+  imageGalleryComplete: {
+    width: width,
+    height: width / 2,
+  },
+  gallery: {
+    backgroundColor: 'black',
+    flex: 1,
+  },
+  navigationBarStyleBlack: {
+    backgroundColor: 'black',
+    borderBottomWidth: 0,
+    borderBottomColor: 'black'
+  },
 
 });
