@@ -4,7 +4,9 @@ import colors from '../../colors';
 const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
-
+  containerGray:{
+    backgroundColor: colors.grayLighter
+  },
   //Scenes
   sceneStyle: {
     backgroundColor: colors.background,
@@ -76,15 +78,17 @@ export default StyleSheet.create({
     fontWeight:'100',
     fontSize: 12,
   },
+  textNormal: {
+    color: colors.textSecondary,
+    fontWeight:'100',
+    fontSize: 14,
+  },
   textBold: {
     fontWeight:'600',
   },
   textLink: {
     color: colors.principal,
-    marginBottom: 5,
-    fontSize: 12,
   },
-
   //place
   textNameBig: {
     color: colors.textSecondary,
@@ -94,6 +98,29 @@ export default StyleSheet.create({
   },
   containerPlace: {
     padding: 20,
+    backgroundColor: 'white',
+  },
+  separator: {
+    paddingVertical: 10,
+    marginHorizontal: 20,
+  },
+
+  containerNamePlace: {
+    flexDirection: 'row',
+    justifyContent:'flex-start',
+    alignItems: 'center',
+  },
+  rating: {
+    padding: 10,
+    borderRadius: 20,
+    width: 40,
+    height: 40,
+    backgroundColor: colors.principal,
+    marginRight: 5,
+  },
+  textRating: {
+    color: 'white',
+    fontSize: 12,
   },
 
   //padding and margin 

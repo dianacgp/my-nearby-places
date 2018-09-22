@@ -9,14 +9,15 @@ const colors = {
 	background: "#FFFFFF",
 	backgroundImage: "#f7f7f7",
  	principal: "#8913ad",
-  background: 'white',
+  background: "white",
   grayLight: "#E9EAEE",
   grayLighter: "#D7D8DA",
   grayMedium: "#BDBCC1",
   graySmedium: "#7D7D7D",
   grayDark: "#6b6767",
-  badge: '#f29243',
-  link: '#7D7D7D',
+  badge: "#f29243",
+  link: "#7D7D7D",
+  price: "#96c944",
 
 }
 

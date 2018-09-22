@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import colors from '../../../colors';
+import basicStyles from '../../styles/styles';
 
 const styles = StyleSheet.create({
 
-  labels: {
+  containerAttribute: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  badge: {
-    marginVertical: 5,
-    marginRight: 10,
-    backgroundColor: colors.badge,
-    borderRadius: 15,
-    paddingHorizontal: 8,
-    paddingVertical: 5,
-  },
-  textBadge: {
-    color: 'white',
-    fontSize: 12,
+    justifyContent: 'space-between',
+    borderBottomColor: colors.grayLight,
+    borderBottomWidth: 1,
+    paddingVertical: 10,
   },
 
 });
@@ -31,11 +23,13 @@ export default class Attributes extends Component {
 
       <View>
         {attributes && attributes.groups.map((group, i) => 
-          <View key={i}>
-            <Text>{group.name}</Text>
-            {group.items.map((item, j) => 
-              <Text key={j}>{item.displayValue}</Text>
-            )}
+          <View key={i} style={styles.containerAttribute}>
+            <Text  style={[basicStyles.textNormal, basicStyles.textBold]}>{group.name}</Text>
+              <View>
+              {group.items.map((item, j) => 
+                <Text key={j} style={basicStyles.textSmall}>{item.displayValue}</Text>
+              )}
+            </View>
           </View>
         )}
       </View>

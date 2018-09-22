@@ -77,7 +77,7 @@ export default class CardSuggestion extends Component {
               }
              
             </View> 
-            <Categories  categories={item.venue.categories }/> 
+            <Categories  place={item.venue}/> 
           </View>
           <View>
             { item.photo !== undefined ? 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import colors from '../../../colors';
 
+const prices = ['$', '$$', '$$$', '$$$$'];
 const styles = StyleSheet.create({
 
   labels: {
@@ -25,10 +26,16 @@ const styles = StyleSheet.create({
 
 export default class Categories extends Component {
   render() {
-    const { categories} = this.props;
+    const { place} = this.props;
+
     return (
        <View style={styles.labels}>
-        { categories && categories.map( (category, i) =>
+        {place.price &&
+        <View style={[styles.badge, {backgroundColor: colors.price}]}>
+          <Text style={styles.textBadge}>{prices[ place.price.tier -1 ]}</Text>
+        </View>
+        }
+        { place.categories && place.categories.map( (category, i) =>
           <View  key={i} style={styles.badge}>
             <Text style={styles.textBadge}>{category.shortName}</Text>
           </View>
