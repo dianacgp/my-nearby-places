@@ -30,6 +30,9 @@ const styles = StyleSheet.create({
   },
   iconLeft: {
     marginRight: 5,
+  },
+  body: {
+    paddingRight: 10,
   }
 
 });
@@ -57,7 +60,7 @@ class Item extends Component {
             <Icon name={icon} size={20} color={colors.grayLighter} style={styles.iconLeft}/>
             }
             {body &&
-              <Text {...this.props} style={[basicStyles.textNormal, link && basicStyles.textLink]}>{body}</Text>
+              <Text {...this.props} style={[basicStyles.textNormal, styles.body, link && basicStyles.textLink]}>{body}</Text>
             }
           </View>
           { showMore &&
@@ -99,6 +102,9 @@ export default class Hours extends Component {
     return (
 
       <View>
+        {place.description &&
+          <Item icon="ios-information-circle" body={place.description}  showMore={false}/>
+        }
         {place.hours &&
         <View>
           <Item icon="md-clock" body={place.hours.status}  showMore={place.hours.timeframes ? true : false}

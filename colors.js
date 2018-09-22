@@ -10,6 +10,7 @@ const colors = {
 	backgroundImage: "#f7f7f7",
  	principal: "#8913ad",
   background: "white",
+  grayVeryLight: '#ededed',
   grayLight: "#E9EAEE",
   grayLighter: "#D7D8DA",
   grayMedium: "#BDBCC1",

@@ -104,7 +104,6 @@ class Place extends Component {
             </View>
             <Text style={styles.textNameBig}>{place.name}</Text>
           </View>
-          <Text style={[styles.textSmall]}>{place.description}</Text>
           <Text style={[styles.textSmall, styles.marginBottomSmall]}>
             {place.location.formattedAddress} 
             <Text style={[styles.textSmall, styles.textBold]} onPress={() => {this.setState({ openMap: true }) }}> (Open in Maps)
