@@ -98,8 +98,8 @@ export default class Hours extends Component {
   }
   render() {
     const { place} = this.props;
-
     return (
+
 
       <View>
         {place.description &&

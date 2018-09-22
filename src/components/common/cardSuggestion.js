@@ -73,7 +73,7 @@ export default class CardSuggestion extends Component {
             <Text style={styles.name}>{item.venue.name}</Text>
             <View style={basicStyles.row}>
               {item.venue.location &&
-                <Text style={basicStyles.textVerySmall}>{General.getLocation(item.venue.location)}  <Text style={styles.link} onPress={()=> {this.props.set({openMap: true, place: item.venue})}} >Open in Maps</Text></Text>
+                <Text style={basicStyles.textVerySmall}>{General.getLocation(item.venue.location)}  <Text style={basicStyles.textBold} onPress={()=> {this.props.set({openMap: true, place: item.venue})}} >( Open in Maps )</Text></Text>
               }
              
             </View> 

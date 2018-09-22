@@ -65,6 +65,24 @@ export default StyleSheet.create({
     color: colors.textSecondary,
     fontSize: 12,
   },
+  itemSuggestionActive: {
+    flexDirection: 'column',
+    width: width / 4,
+    height: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.principal,
+    margin: 5,
+    borderRadius: 5,
+  },
+  iconSuggestionActive: {
+    color: 'white',
+  },
+  textSuggestionActive: {
+    marginTop: 10,
+    color: 'white',
+    fontSize: 12,
+  },
 
   //text
 

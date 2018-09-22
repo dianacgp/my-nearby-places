@@ -9,7 +9,13 @@ import colors from '../../colors'
 import CardSuggestion from './common/cardSuggestion';
 import OpenMap from './common/openMap';
 
-
+const suggestions = [
+    {icon: 'md-pizza', label: 'Food', value: 'food'},
+    {icon: 'coffee', label: 'Coffees', value: 'coffee', type: "FontAwesome"},
+    {icon: 'beer', label: 'Night', value: 'drink', type: "FontAwesome"},
+    {icon: 'ticket', label: 'Fun', value: 'art', type: "FontAwesome"},
+    {icon: 'md-cart', label: 'Shops', value: 'shops'},
+  ];
 class places extends Component {
 
   state = {
@@ -22,6 +28,7 @@ class places extends Component {
     searchTerm: '',
     openMap: false,
     place: null,
+    activeCategory: '',
   }
 
 
@@ -78,8 +85,47 @@ class places extends Component {
     })
    
   }
+  searchSuggestions = (suggestion) => {
+
+    let suggestionValue = suggestion;
+
+    if ( suggestionValue === this.state.activeCategory){
+      suggestionValue = '';
+    }
+    this.set({activeCategory: suggestionValue});
+
+    const data = {query: suggestionValue, ll: this.state.ll };
+
+    this.props.getPlaces(data)
+    .then((response) => {
+      console.log('response', response);
+    })
+    .catch((e) => {
+      console.log('e', e)
+    })
+
+  }
   set = ( state ) => {
     this.setState(state);
+  }
+
+  renderSuggestions = () => {
+    const { activeCategory } = this.state;
+
+    return(
+      <View style={styles.containerSuggestions}>
+        {
+          suggestions.map((suggestion, i) => 
+            <TouchableOpacity key={i} style={activeCategory === suggestion.value ? styles.itemSuggestionActive : styles.itemSuggestion}
+              onPress={this.searchSuggestions.bind(this, suggestion.value)}
+              >
+              <Icon  name={suggestion.icon} style={activeCategory === suggestion.value ? styles.iconSuggestionActive : styles.iconSuggestion} type={suggestion.type} />
+              <Text style={activeCategory === suggestion.value ? styles.textSuggestionActive : styles.textSuggestion}>{suggestion.label}</Text>
+            </TouchableOpacity>
+          )
+        }
+      </View>
+    )
   }
   render() {
     const { places,  places_refreshing} = this.props;
@@ -100,34 +146,10 @@ class places extends Component {
             <Text style={styles.textButtonSearch}>Search</Text>
           </Button>
         </Header>
-
-        <View style={styles.containerSuggestions}>
-          <TouchableOpacity style={styles.itemSuggestion}>
-            <Icon  name="md-pizza" style={styles.iconSuggestion} />
-            <Text style={styles.textSuggestion}>Food</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.itemSuggestion}>
-            <Icon type="FontAwesome" name="coffee" style={styles.iconSuggestion} />
-            <Text style={styles.textSuggestion}>Coffees</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.itemSuggestion}>
-            <Icon type="FontAwesome" name="beer" style={styles.iconSuggestion} />
-            <Text style={styles.textSuggestion}>Night</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.itemSuggestion}>
-            <Icon type="FontAwesome" name="ticket" style={styles.iconSuggestion} />
-            <Text style={styles.textSuggestion}>Fun</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemSuggestion}>
-            <Icon name="md-cart" style={styles.iconSuggestion} />
-            <Text style={styles.textSuggestion}>Shopping</Text>
-          </TouchableOpacity>
-        </View>
-        
+        {this.renderSuggestions()}
         <FlatList
+          showsVerticalScrollIndicator={false}
+          //ListHeaderComponent={this.renderSuggestions}
           refreshing={places_refreshing}
           data = {places.toJS()}
           onRefresh={this.searchplaces}
