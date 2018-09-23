@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, FlatList, Geolocation, TouchableOpacity, Image } from 'react-native';
-import { getPlaces } from '../reducers/places/actions';
+import { getSuggestions } from '../reducers/places/actions';
 import { connect } from 'react-redux';
 import styles from '../styles/styles';
 import { Actions } from 'react-native-router-flux';
@@ -12,15 +12,16 @@ import OpenMap from './common/openMap';
 const suggestions = [
     {icon: 'md-pizza', label: 'Food', value: 'food'},
     {icon: 'coffee', label: 'Coffees', value: 'coffee', type: "FontAwesome"},
-    {icon: 'beer', label: 'Night', value: 'drink', type: "FontAwesome"},
-    {icon: 'ticket', label: 'Fun', value: 'art', type: "FontAwesome"},
+    {icon: 'beer', label: 'Night', value: 'drinks', type: "FontAwesome"},
+    {icon: 'ticket', label: 'Fun', value: 'arts', type: "FontAwesome"},
     {icon: 'md-cart', label: 'Shops', value: 'shops'},
+
   ];
-class places extends Component {
+class Home extends Component {
 
   state = {
     placeName: '',
-    places: [],
+    suggestions: [],
     latitude: null,
     longitude: null,
     ll: '',
@@ -40,9 +41,10 @@ class places extends Component {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           error: null,
+          //ll: '48.8583701,2.2922926',
           ll:  position.coords.latitude + ',' + position.coords.longitude,
         });
-        this.searchplaces();
+        this.searchSuggestions();
       },
       (error) => {
         this.setState({ error: error.message });
@@ -53,8 +55,8 @@ class places extends Component {
   }
 
 
-  getPlaces = (data) => {
-    this.props.getPlaces(data)
+  getSuggestions = (data) => {
+    this.props.getSuggestions(data)
     .then((response) => {
       console.log('response', response);
     })
@@ -72,37 +74,32 @@ class places extends Component {
       searchTerm: text,
     })
   }
-  searchplaces = () => {
-    const { searchTerm, ll } = this.state;
-    const data = {query: searchTerm, ll: ll };
-
-    this.props.getPlaces(data)
+  searchSuggestions = ( section = '') => {
+    const { ll, activeCategory } = this.state;
+    const data = {section: section, ll: ll };
+    console.log('data', data);
+    this.props.getSuggestions(data)
     .then((response) => {
       console.log('response', response);
     })
     .catch((e) => {
       console.log('e', e)
     })
-   
   }
-  searchSuggestions = (suggestion) => {
+  getCategory = () =>{
+    return this.state.activeCategory;
+  }
+  
+  searchCategories = (suggestion) => {
 
     let suggestionValue = suggestion;
 
-    if ( suggestionValue === this.state.activeCategory){
+    if ( suggestion === this.state.activeCategory){
       suggestionValue = '';
     }
     this.set({activeCategory: suggestionValue});
 
-    const data = {query: suggestionValue, ll: this.state.ll };
-
-    this.props.getPlaces(data)
-    .then((response) => {
-      console.log('response', response);
-    })
-    .catch((e) => {
-      console.log('e', e)
-    })
+    this.searchSuggestions(suggestionValue);
 
   }
   set = ( state ) => {
@@ -117,7 +114,7 @@ class places extends Component {
         {
           suggestions.map((suggestion, i) => 
             <TouchableOpacity key={i} style={activeCategory === suggestion.value ? styles.itemSuggestionActive : styles.itemSuggestion}
-              onPress={this.searchSuggestions.bind(this, suggestion.value)}
+              onPress={this.searchCategories.bind(this, suggestion.value)}
               >
               <Icon  name={suggestion.icon} style={activeCategory === suggestion.value ? styles.iconSuggestionActive : styles.iconSuggestion} type={suggestion.type} />
               <Text style={activeCategory === suggestion.value ? styles.textSuggestionActive : styles.textSuggestion}>{suggestion.label}</Text>
@@ -127,32 +124,29 @@ class places extends Component {
       </View>
     )
   }
+  openSearch = () => {
+    console.log('search');
+    Actions.modal_search();
+  }
   render() {
-    const { places,  places_refreshing} = this.props;
+    const { suggestions,  suggestions_refreshing} = this.props;
 
     return (
       <Container>
         <OpenMap open={this.state.openMap} place={this.state.place} setOpenMap={this.setOpenMap}/>
         <Header searchBar rounded style={styles.navigationBarStyle}>
-          <Item style={styles.inputSearch}>
-            <Icon name="ios-search" />
-            <Input
-              onChangeText={this.onChangeText}
-              placeholder="What are you looking for?" />
-          </Item>
-          <Button
-            onPress={this.searchplaces}
-            transparent>
-            <Text style={styles.textButtonSearch}>Search</Text>
-          </Button>
+          <TouchableOpacity onPress={this.openSearch}>
+            <Text>What are you looking for?</Text>
+          </TouchableOpacity>
         </Header>
         {this.renderSuggestions()}
         <FlatList
+
           showsVerticalScrollIndicator={false}
           //ListHeaderComponent={this.renderSuggestions}
-          refreshing={places_refreshing}
-          data = {places.toJS()}
-          onRefresh={this.searchplaces}
+          refreshing={suggestions_refreshing}
+          data = {suggestions.toJS()}
+          onRefresh={this.searchSuggestions}
           keyExtractor={(item, index) => index.toString()}
           renderItem = {({ item, index }) =>         
             <CardSuggestion item={item} index={index} set={this.set}/>
@@ -166,10 +160,10 @@ class places extends Component {
 
 const mapStateToProps = state => {
   return {
-    places_refreshing: state.places.places_refreshing,
-    places: state.places.places,
-    places_error: state.places.places_error,
+    suggestions_refreshing: state.places.suggestions_refreshing,
+    suggestions: state.places.suggestions,
+    suggestions_error: state.places.suggestions_error,
   }
 }
 
-export default connect(state => ( mapStateToProps), { getPlaces })(places);
+export default connect(state => ( mapStateToProps), { getSuggestions })(Home);

@@ -33,7 +33,13 @@ const styles = StyleSheet.create({
   },
   body: {
     paddingRight: 10,
-  }
+  },
+  textOpen: {
+    color: colors.open,
+  },
+  textClosed: {
+    color: colors.open,
+  },
 
 });
 class Item extends Component {
@@ -49,7 +55,7 @@ class Item extends Component {
     this.setState({open: !this.state.open})
   }
   render() {
-    const { icon, body, showMore, show, link} = this.props;
+    const { icon, body, showMore, show, link, style} = this.props;
     const { open } = this.state;
     return (
 
@@ -60,7 +66,7 @@ class Item extends Component {
             <Icon name={icon} size={20} color={colors.grayLighter} style={styles.iconLeft}/>
             }
             {body &&
-              <Text {...this.props} style={[basicStyles.textNormal, styles.body, link && basicStyles.textLink]}>{body}</Text>
+              <Text {...this.props} style={[basicStyles.textNormal, styles.body, style]}>{body}</Text>
             }
           </View>
           { showMore &&
@@ -122,11 +128,12 @@ export default class Hours extends Component {
                 </View>
               );
             }}
+            style={place.hours.isOpen ? styles.textOpen : styles.textClosed}
           />
         </View>
       }
       {place.url &&
-        <Item icon="ios-globe" body={place.url}  showMore={false} link={true} onPress={this.openUrl.bind(this, place.url)}/>
+        <Item icon="ios-globe" body={place.url}  showMore={false} onPress={this.openUrl.bind(this, place.url)} style={basicStyles.textLink}/>
       }
       {
         place.contact.formattedPhone && 
@@ -134,11 +141,11 @@ export default class Hours extends Component {
       }
       {
         place.contact.twitter && 
-        <Item icon="logo-twitter" body={"@" + place.contact.twitter}  link={true} showMore={false} onPress={this.openUrl.bind(this, "https://twitter.com/" + place.contact.twitter)}/>
+        <Item icon="logo-twitter" body={"@" + place.contact.twitter}  showMore={false} onPress={this.openUrl.bind(this, "https://twitter.com/" + place.contact.twitter)} style={basicStyles.textLink}/>
       }
       {
         place.contact.facebook && 
-        <Item icon="logo-facebook" body={"@" + place.contact.facebook}  link={true} showMore={false} onPress={this.openUrl.bind(this, "https://www.facebook.com/" + place.contact.facebook)}/>
+        <Item icon="logo-facebook" body={"@" + place.contact.facebook}  showMore={false} onPress={this.openUrl.bind(this, "https://www.facebook.com/" + place.contact.facebook)} style={basicStyles.textLink}/>
       }
     </View>
     );

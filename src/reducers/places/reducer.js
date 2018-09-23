@@ -9,6 +9,14 @@ const InitialState = Record({
   places_refreshing: false,
   places_error: false,
 
+  suggestions: new List(),
+  suggestions_refreshing: false,
+  suggestions_error: false,
+
+  autocomplete: new List(),
+  autocomplete_refreshing: false,
+  autocomplete_error: false,
+
   place: null,
 
 });
@@ -47,7 +55,7 @@ export default function places_reducer(state = initialState, action) {
     //------------------------------------------------
     case `${actions.GET_PLACES}_FULFILLED`:
 
-      //console.log('totalResults', action.payload.response.group.totalResults)
+      // console.log('totalResults', action.payload.response.group.totalResults)
       let result =  [];
       if (action.payload.response.group.totalResults > 0){
        result = action.payload.response.group.results;
@@ -72,6 +80,60 @@ export default function places_reducer(state = initialState, action) {
       places_error: false,
       places_refreshing: true,
       places: new List(),
+
+    });
+     //------------------------------------------------
+    case `${actions.GET_SUGGESTIONS}_FULFILLED`:
+
+      result =  [];
+      if (action.payload.response.group.totalResults > 0){
+       result = action.payload.response.group.results;
+      }
+      return state.merge({
+        suggestions: result,
+        suggestions_refreshing: false,
+        suggestions_error: false,
+      });
+    case `${actions.GET_SUGGESTIONS}_REJECTED`:
+      return state.merge({
+        suggestions_refreshing: false,
+        suggestions_error: true,
+      });
+    case `${actions.GET_SUGGESTIONS}_REJECTED_FULFILLED`:
+      return state.merge({
+        suggestions_error: true,
+        suggestions_refreshing: false,
+      });
+    case `${actions.GET_SUGGESTIONS}_PENDING`:
+    return state.merge({
+      suggestions_error: false,
+      suggestions_refreshing: true,
+      suggestions: new List(),
+
+    });
+    //------------------------------------------------
+    case `${actions.AUTOCOMPLETE}_FULFILLED`:
+
+      console.log('payload', action.payload)
+      return state.merge({
+        //autocomplete: ,
+        autocomplete_refreshing: false,
+        autocomplete_error: false,
+      });
+    case `${actions.AUTOCOMPLETE}_REJECTED`:
+      return state.merge({
+        autocomplete_refreshing: false,
+        autocomplete_error: true,
+      });
+    case `${actions.AUTOCOMPLETE}_REJECTED_FULFILLED`:
+      return state.merge({
+        autocomplete_error: true,
+        autocomplete_refreshing: false,
+      });
+    case `${actions.AUTOCOMPLETE}_PENDING`:
+    return state.merge({
+      autocomplete_error: false,
+      autocomplete_refreshing: true,
 
     });
 

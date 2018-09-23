@@ -19,6 +19,8 @@ const colors = {
   badge: "#f29243",
   link: "#7D7D7D",
   price: "#96c944",
+  open: '#3DBE66',
+  closed: '#E76162',
 
 }
 
