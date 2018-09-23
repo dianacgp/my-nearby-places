@@ -1,6 +1,6 @@
-export const GET_PLACES = 'GET_PLACES';
+export const GET_PLACES_FULFILLED = 'GET_PLACES';
 export const GET_PLACE = 'GET_PLACE';
-export const GET_SUGGESTIONS = 'GET_SUGGESTIONS';
+export const GET_SUGGESTIONS_FULFILLED = 'GET_SUGGESTIONS';
 export const AUTOCOMPLETE  = 'AUTOCOMPLETE';
 
 export function getPlace(id) {
@@ -30,7 +30,7 @@ export function getPlaces(data) {
     const  url = apiUrl() + 'search/recommendations?' + authorization + '&v=20180323&ll='+data.ll+'&query='+ data.query + data.filters;
 
     return {
-      type: GET_PLACES,
+      type: 'GET_PLACES',
       payload: fetch(url, {
         method: 'GET',
       })
@@ -73,7 +73,7 @@ export function getSuggestions(data) {
     const  url = apiUrl() + 'search/recommendations?' + authorization + '&v=20180323&ll='+data.ll+'&section='+ data.section;
 
     return {
-      type: GET_SUGGESTIONS,
+      type: 'GET_SUGGESTIONS',
       payload: fetch(url, {
         method: 'GET',
       })

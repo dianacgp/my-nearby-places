@@ -8,6 +8,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import storageFilter from 'redux-storage-decorator-filter';
 import { createMiddleware as createStorageMiddleware, createLoader } from 'redux-storage';
 import isomorphicFetch from 'isomorphic-fetch';
+import { GET_SUGGESTIONS_FULFILLED, GET_PLACES_FULFILLED } from './places/actions'
 import Moment from 'moment';
 
 const apiUrl = 'https://api.foursquare.com/v2/';
@@ -31,8 +32,9 @@ const configureMiddleware = (composeWithDevTools, options) => {
   if (engine) {
     decoratedEngine = storageFilter(engine, [
       'redux-storage:connexa',
+      ['places', 'suggestions'],
     ], [
-      'blacklisted-key',       // attributes not update
+      'blacklisted-key',    // attributes not update
     ]);
   }
 
@@ -46,7 +48,10 @@ const configureMiddleware = (composeWithDevTools, options) => {
       thunk
     }),
     storage.createMiddleware(decoratedEngine, [], 
-      []),
+      [ 
+        GET_PLACES_FULFILLED,
+        GET_SUGGESTIONS_FULFILLED,
+      ]),
     promiseMiddleware({ promiseTypeSuffixes: ['PENDING', 'FULFILLED', 'REJECTED'] })
 
   ];

@@ -20,29 +20,6 @@ export default StyleSheet.create({
     borderBottomWidth: 0,
     borderBottomColor: 'black'
   },
-  //Search bar
-  containerSearchBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  containerInputSearchBar: {
-    flexDirection: 'row',
-    borderRadius: 15,
-    paddingVertical: 10,
-    backgroundColor: colors.inputSearch,
-  },
-  inputSearchBar: {
-    marginLeft: 5,
-    width: width / 2,
-    //height: 30,
-  },
-  iconSearchBar: {
-    marginLeft: 5,
-  },
-
-  textButtonSearch: {
-    color: colors.principal,
-  },
   //common
   row: {
     flexDirection: 'row',
@@ -54,7 +31,6 @@ export default StyleSheet.create({
   flex: {
     flex: 1,
   },
-
   //suggestions
   containerSuggestions: {
     flexDirection: 'row',
@@ -99,9 +75,7 @@ export default StyleSheet.create({
     color: 'white',
     fontSize: 12,
   },
-
   //text
-
   textVerySmall: {
     color: colors.textSecondary,
     fontWeight:'100',

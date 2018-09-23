@@ -7,10 +7,12 @@ const InitialState = Record({
 
   places: new List(),
   places_refreshing: false,
+  places_loaded: false,
   places_error: false,
 
   suggestions: new List(),
   suggestions_refreshing: false,
+  suggestions_loaded: false,
   suggestions_error: false,
 
   autocomplete: new List(),
@@ -28,32 +30,8 @@ export default function places_reducer(state = initialState, action) {
 
   switch (action.type) {
 
-    // case `${actions.GET_PLACES}_FULFILLED`:
-      
-    //   return state.merge({
-    //     places: action.payload.response.venues,
-    //     places_refreshing: false,
-    //     places_error: false,
-    //   });
-    // case `${actions.GET_PLACES}_REJECTED`:
-    //   return state.merge({
-    //     places_refreshing: false,
-    //     places_error: true,
-    //   });
-    // case `${actions.GET_PLACES}_REJECTED_FULFILLED`:
-    //   return state.merge({
-    //     places_error: true,
-    //     places_refreshing: false,
-    //   });
-    // case `${actions.GET_PLACES}_PENDING`:
-    //   return state.merge({
-    //     places_error: false,
-    //     places_refreshing: true,
-    //     places: new List(),
-
-    //   });
     //------------------------------------------------
-    case `${actions.GET_PLACES}_FULFILLED`:
+    case 'GET_PLACES_FULFILLED':
 
       // console.log('totalResults', action.payload.response.group.totalResults)
       let result =  [];
@@ -64,26 +42,30 @@ export default function places_reducer(state = initialState, action) {
         places: result,
         places_refreshing: false,
         places_error: false,
+        places_loaded: true,
       });
-    case `${actions.GET_PLACES}_REJECTED`:
+    case 'GET_PLACES_REJECTED':
       return state.merge({
         places_refreshing: false,
         places_error: true,
+        places_loaded: false,
       });
-    case `${actions.GET_PLACES}_REJECTED_FULFILLED`:
+    case 'GET_PLACES__REJECTED_FULFILLED':
       return state.merge({
         places_error: true,
         places_refreshing: false,
+        places_loaded: false,
       });
-    case `${actions.GET_PLACES}_PENDING`:
+    case 'GET_PLACES_PENDING':
     return state.merge({
       places_error: false,
       places_refreshing: true,
       places: new List(),
+      places_loaded: false,
 
     });
      //------------------------------------------------
-    case `${actions.GET_SUGGESTIONS}_FULFILLED`:
+    case 'GET_SUGGESTIONS_FULFILLED':
 
       result =  [];
       if (action.payload.response.group.totalResults > 0){
@@ -93,22 +75,26 @@ export default function places_reducer(state = initialState, action) {
         suggestions: result,
         suggestions_refreshing: false,
         suggestions_error: false,
+        suggestions_loaded: true,
       });
-    case `${actions.GET_SUGGESTIONS}_REJECTED`:
+    case 'GET_SUGGESTIONS_REJECTED':
       return state.merge({
         suggestions_refreshing: false,
         suggestions_error: true,
+        suggestions_loaded: false,
       });
-    case `${actions.GET_SUGGESTIONS}_REJECTED_FULFILLED`:
+    case 'GET_SUGGESTIONS_REJECTED_FULFILLED':
       return state.merge({
         suggestions_error: true,
         suggestions_refreshing: false,
+        suggestions_loaded: false,
       });
-    case `${actions.GET_SUGGESTIONS}_PENDING`:
+    case 'GET_SUGGESTIONS_PENDING':
     return state.merge({
       suggestions_error: false,
       suggestions_refreshing: true,
       suggestions: new List(),
+      suggestions_loaded: false,
 
     });
     //------------------------------------------------

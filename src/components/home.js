@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, Geolocation, TouchableOpacity, Image } from 'react-native';
+import { View, FlatList, Geolocation, TouchableOpacity, InteractionManager } from 'react-native';
 import { getSuggestions } from '../reducers/places/actions';
 import { connect } from 'react-redux';
 import styles from '../styles/styles';
@@ -8,7 +8,9 @@ import { Container, Header, Item, Input, Icon, Button, Text, Body, Thumbnail, Li
 import colors from '../../colors'
 import CardSuggestion from './common/cardSuggestion';
 import OpenMap from './common/openMap';
-import SearchBar from './common/searchBar';
+import Message from './common/message';
+import Modal from "react-native-simple-modal";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const suggestions = [
     {icon: 'md-pizza', label: 'Food', value: 'food'},
@@ -31,50 +33,38 @@ class Home extends Component {
     openMap: false,
     place: null,
     activeCategory: '',
+    modalError: true,
+    spinner: true,
   }
 
 
   componentDidMount(){
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          error: null,
-          //ll: '48.8583701,2.2922926',
-          ll:  position.coords.latitude + ',' + position.coords.longitude,
-        });
-        Actions.refresh({renderTitle: this.renderTitle})
-        this.searchSuggestions();
-      },
-      (error) => {
-        this.setState({ error: error.message });
-        console.log('error', error)
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    );
-  }
+    this.setState({spinner: true});
 
-  renderTitle = () => {
-    return(
-      <SearchBar
-        onPress={this.openSearch}
-        TextInput={{
-          editable: false,
-          onChange: this.openSearch,
-          onChangeText: this.openSearch,
-          placeholder: "Search near me",
-          autoFocus: false,
-        }}
-        Button={{
-          disabled: true,
-          onPress: this.searchPlaces
-        }}
-      />
-    )
-  }
+    InteractionManager.runAfterInteractions(() => {  
 
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            error: null,
+            //ll: '48.8583701,2.2922926',
+            ll:  position.coords.latitude + ',' + position.coords.longitude,
+            spinner: false,
+          });
+          this.searchSuggestions();
+        },
+        (error) => {
+
+          this.setState({ error: error, modalError: true, spinner: false });
+          Actions.location({error: error, modalError: this.state.modalError, reload: this.componentDidMount.bind(this)})
+        },
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      );
+    });
+  }
 
   getSuggestions = (data) => {
     this.props.getSuggestions(data)
@@ -149,18 +139,51 @@ class Home extends Component {
     console.log('search');
     Actions.modal_search();
   }
+  renderFooter = () => {
+
+    const { suggestions, suggestions_error, suggestions_loaded  } = this.props;
+
+    return(
+      <View>
+        {
+          suggestions_error ? 
+            <Message error={true} reload={this.searchSuggestions}/>
+        :
+          suggestions.size === 0 && suggestions_loaded &&
+            <Message message='We do not find results near you'/>
+        }
+      </View>
+    )
+  }
+  closeModal = () => {
+    this.setState({modalError:  false});
+    Actions.location({error: this.state.error, modalError: this.state.modalError})
+  }
+
+  renderLoading = () => {
+
+    return(
+      <Spinner/>
+    );
+  }
+  onMomentumScrollBegin = () => {
+    console.log('onMomentumScrollBegin')
+  }
   render() {
     const { suggestions,  suggestions_refreshing} = this.props;
+    const { error, modalError } = this.state;
 
     return (
       <Container>
+        <View>
+          <Spinner visible={this.state.spinner} />
+        </View>
         <OpenMap open={this.state.openMap} place={this.state.place} setOpenMap={this.setOpenMap}/>
-        {this.renderTitle()}
         {this.renderSuggestions()}
         <FlatList
-
+          onMomentumScrollBegin={this.onMomentumScrollBegin}
           showsVerticalScrollIndicator={false}
-          //ListHeaderComponent={this.renderSuggestions}
+          ListFooterComponent={this.renderFooter}
           refreshing={suggestions_refreshing}
           data = {suggestions.toJS()}
           onRefresh={this.searchSuggestions}
@@ -172,6 +195,7 @@ class Home extends Component {
     
       </Container>
     );
+
   }
 }
 

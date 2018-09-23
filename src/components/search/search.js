@@ -10,13 +10,14 @@ import CardSuggestion from '../common/cardSuggestion';
 import SearchBar from '../common/searchBar';
 import OpenMap from '../common/openMap';
 import Filters from './filters';
+import Message from '../common/message';
 import Sort from './sort';
 import Modal from "react-native-simple-modal";
 import Styles from './styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const dismissKeyboard = require('dismissKeyboard');
 
-class Home extends Component {
+class Search extends Component {
 
   state = {
     placeName: '',
@@ -105,7 +106,7 @@ class Home extends Component {
     let prices = '';
     let flagPrices = false;
     let searchFilters = '';
-    console.log('filters', filters)
+
     for ( var v of filters.values() ) {
 
       if (v.category === 'openNow'){
@@ -130,6 +131,7 @@ class Home extends Component {
   renderTitle = () => {
     return(
       <SearchBar
+        showButton= {true}
         TextInput={{
           onChangeText: this.onChangeText, 
           placeholder: "Search near me",
@@ -139,6 +141,22 @@ class Home extends Component {
           onPress: this.searchPlaces
         }}
       />
+    )
+  }
+  renderFooter = () => {
+
+    const { places, places_error, places_loaded  } = this.props;
+
+    return(
+      <View>
+        {
+          places_error ? 
+            <Message error={true} reload={this.searchPlaces}/>
+        :
+          places.size === 0 && places_loaded &&
+            <Message message='We do not find results near you'/>
+        }
+      </View>
     )
   }
 
@@ -195,6 +213,7 @@ class Home extends Component {
             <FlatList
               keyboardShouldPersistTaps="always"
               showsVerticalScrollIndicator={false}
+              ListFooterComponent={this.renderFooter}
               refreshing={places_refreshing}
               data = {places.toJS()}
               onRefresh={this.searchPlaces}
@@ -216,7 +235,8 @@ const mapStateToProps = state => {
     places_refreshing: state.places.places_refreshing,
     places: state.places.places,
     places_error: state.places.places_error,
+    places_loaded: state.places.places_loaded,
   }
 }
 
-export default connect(state => ( mapStateToProps), { getPlaces })(Home);
+export default connect(state => ( mapStateToProps), { getPlaces })(Search);
