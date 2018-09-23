@@ -7,12 +7,9 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "moment": "^2.22.2",
-    "native-base": "^2.8.0",
     "react": "16.3.1",
     "react-native": "0.56.0",
     "react-native-button": "^2.3.0",
-    "react-native-elements": "^0.19.1",
     "react-native-image-gallery": "^2.1.5",
     "react-native-keyboard-aware-scroll-view": "^0.7.2",
     "react-native-loading-spinner-overlay": "^0.5.2",
@@ -33,6 +30,6 @@
     "redux-storage-engine-reactnativeasyncstorage": "^1.0.5",
     "redux-storage-merger-immutablejs": "^1.0.5",
     "redux-thunk": "^2.3.0",
-    "tcomb-form-native": "^0.6.16"
+    "save": "^2.3.2"
   }
 }

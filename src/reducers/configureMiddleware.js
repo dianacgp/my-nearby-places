@@ -9,7 +9,6 @@ import storageFilter from 'redux-storage-decorator-filter';
 import { createMiddleware as createStorageMiddleware, createLoader } from 'redux-storage';
 import isomorphicFetch from 'isomorphic-fetch';
 import { GET_SUGGESTIONS_FULFILLED, GET_PLACES_FULFILLED } from './places/actions'
-import Moment from 'moment';
 
 const apiUrl = 'https://api.foursquare.com/v2/';
 const client_id = '5WCPOCQ4245Q0KBQRVNXVPSOMTX5S2ZRCAHVNNRHVYFKEPCE';

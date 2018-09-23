@@ -21,6 +21,9 @@ const InitialState = Record({
 
   place: null,
 
+  search_place: '',
+
+
 });
 
 const initialState = new InitialState;
@@ -30,6 +33,12 @@ export default function places_reducer(state = initialState, action) {
 
   switch (action.type) {
 
+
+    case `${actions.SET_SEARCH_PLACE}`:
+
+      return state.merge({
+        search_place: action.payload,
+      });
     //------------------------------------------------
     case 'GET_PLACES_FULFILLED':
 

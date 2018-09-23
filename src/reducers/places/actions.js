@@ -2,6 +2,14 @@ export const GET_PLACES_FULFILLED = 'GET_PLACES';
 export const GET_PLACE = 'GET_PLACE';
 export const GET_SUGGESTIONS_FULFILLED = 'GET_SUGGESTIONS';
 export const AUTOCOMPLETE  = 'AUTOCOMPLETE';
+export const SET_SEARCH_PLACE  = 'SET_SEARCH_PLACE';
+
+export function setSearchPlace(value) {
+  return {
+    type: SET_SEARCH_PLACE,
+    payload: value
+  };
+}
 
 export function getPlace(id) {
   return ({ apiUrl, authorization }) => {
