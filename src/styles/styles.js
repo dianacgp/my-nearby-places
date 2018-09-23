@@ -21,9 +21,25 @@ export default StyleSheet.create({
     borderBottomColor: 'black'
   },
   //Search bar
-  inputSearch: {
+  containerSearchBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  containerInputSearchBar: {
+    flexDirection: 'row',
+    borderRadius: 15,
+    paddingVertical: 10,
     backgroundColor: colors.inputSearch,
   },
+  inputSearchBar: {
+    marginLeft: 5,
+    width: width / 2,
+    //height: 30,
+  },
+  iconSearchBar: {
+    marginLeft: 5,
+  },
+
   textButtonSearch: {
     color: colors.principal,
   },

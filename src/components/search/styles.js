@@ -44,4 +44,17 @@ export default styles = StyleSheet.create({
     color: 'white',
     fontSize: 14,
   },
+  containerFilters: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+  },
+  sort: {
+    flexDirection: 'row',
+  },
+  iconSort: {
+    marginRight: 5,
+  },
+
+   
 });

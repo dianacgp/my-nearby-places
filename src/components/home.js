@@ -8,6 +8,7 @@ import { Container, Header, Item, Input, Icon, Button, Text, Body, Thumbnail, Li
 import colors from '../../colors'
 import CardSuggestion from './common/cardSuggestion';
 import OpenMap from './common/openMap';
+import SearchBar from './common/searchBar';
 
 const suggestions = [
     {icon: 'md-pizza', label: 'Food', value: 'food'},
@@ -44,6 +45,7 @@ class Home extends Component {
           //ll: '48.8583701,2.2922926',
           ll:  position.coords.latitude + ',' + position.coords.longitude,
         });
+        Actions.refresh({renderTitle: this.renderTitle})
         this.searchSuggestions();
       },
       (error) => {
@@ -52,6 +54,25 @@ class Home extends Component {
       },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
+  }
+
+  renderTitle = () => {
+    return(
+      <SearchBar
+        onPress={this.openSearch}
+        TextInput={{
+          editable: false,
+          onChange: this.openSearch,
+          onChangeText: this.openSearch,
+          placeholder: "Search near me",
+          autoFocus: false,
+        }}
+        Button={{
+          disabled: true,
+          onPress: this.searchPlaces
+        }}
+      />
+    )
   }
 
 
@@ -134,11 +155,7 @@ class Home extends Component {
     return (
       <Container>
         <OpenMap open={this.state.openMap} place={this.state.place} setOpenMap={this.setOpenMap}/>
-        <Header searchBar rounded style={styles.navigationBarStyle}>
-          <TouchableOpacity onPress={this.openSearch}>
-            <Text>What are you looking for?</Text>
-          </TouchableOpacity>
-        </Header>
+        {this.renderTitle()}
         {this.renderSuggestions()}
         <FlatList
 

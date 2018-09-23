@@ -8,7 +8,6 @@ import Place from './place';
 import Gallery from './common/photos/gallery';
 import WebView from './common/webview';
 import colors from '../../colors'
-import DrawerContent from './search/filters'
 import styles from '../styles/styles';
 
 const reducerCreate = params => {
@@ -33,22 +32,13 @@ const Scenes = () => (
       <Modal key="modal" hideNavBar transitionConfig={() => ({ screenInterpolator: CardStackStyleInterpolator.forFadeFromBottomAndroid })}>
         <Lightbox key="lightbox"  type={ActionConst.RESET}>
           <Stack key="root" titleStyle={{ alignSelf: 'center' }}>
-            <Scene initial component={Home} type={ActionConst.RESET} hideNavBar />
-            <Drawer hideNavBar key="drawer" contentComponent={DrawerContent} drawerWidth={200}>
-              <Scene hideNavBar panHandlers={null}>
-              
-                <Scene key="modal_search" hideNavBar={false} component={Search}  back={true} />
-              </Scene>
-            </Drawer>
+            <Scene initial component={Home} type={ActionConst.RESET} hideNavBar={false} />
+            <Scene key="modal_search" hideNavBar={false} component={Search}  back={true} />
             <Scene key="modal_place" component={Place} hideNavBar={false} back={true}  />
             <Scene key="modal_gallery" component={Gallery} hideNavBar={false} navigationBarStyle={styles.navigationBarStyleBlack} back={true} />
             <Scene key="modal_webview" component={WebView} hideNavBar={false} back={true} />
-
           </Stack>
-
-         
         </Lightbox>
-
       </Modal>
     </Overlay>
   </Router>

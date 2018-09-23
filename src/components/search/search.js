@@ -5,72 +5,16 @@ import { connect } from 'react-redux';
 import basicStyles from '../../styles/styles';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Container, Header, Item, Input, Text, Body, Thumbnail, List, ListItem, Left, Right, Badge } from 'native-base';
 import colors from '../../../colors'
 import CardSuggestion from '../common/cardSuggestion';
+import SearchBar from '../common/searchBar';
 import OpenMap from '../common/openMap';
 import Filters from './filters';
 import Sort from './sort';
 import Modal from "react-native-simple-modal";
-
-const styles = StyleSheet.create({
-  containerFilters: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-  },
-  sort: {
-    flexDirection: 'row',
-  },
-  iconSort: {
-    marginRight: 5,
-  },
-   container: {
-    backgroundColor: 'white',
-    padding: 10,
-   
-  },
-  contentContainerStyle: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    flex: 1,
-  },
-  labels: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  item: {
-    paddingVertical: 10,
-    borderBottomColor: colors.grayLight,
-    borderBottomWidth: 1,
-  },
-  filterInactive: {
-    marginVertical: 5,
-    marginRight: 10,
-    backgroundColor: colors.grayVeryLight,
-    borderRadius: 15,
-    paddingHorizontal: 8,
-    paddingVertical: 5,
-  },
-  textFilterInactive: {
-    color: colors.text_secondary,
-    fontSize: 12,
-  },
-  filterActive: {
-    marginVertical: 5,
-    marginRight: 10,
-    backgroundColor: colors.principal,
-    borderRadius: 15,
-    paddingHorizontal: 8,
-    paddingVertical: 5,
-  },
-  textFilterActive: {
-    color: 'white',
-    fontSize: 12,
-  },
-  
-
-});
+import Styles from './styles';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+const dismissKeyboard = require('dismissKeyboard');
 
 class Home extends Component {
 
@@ -101,6 +45,7 @@ class Home extends Component {
           //ll: '48.8583701,2.2922926',
           ll:  position.coords.latitude + ',' + position.coords.longitude,
         });
+        Actions.refresh({renderTitle: this.renderTitle})
       },
       (error) => {
         this.setState({ error: error.message });
@@ -127,7 +72,9 @@ class Home extends Component {
 
     this.setState({
       searchTerm: text,
-    })
+    });
+    Actions.refresh({renderTitle: this.renderTitle})
+
   }
   searchPlaces = (  ) => {
     const { searchTerm, ll } = this.state;
@@ -145,9 +92,11 @@ class Home extends Component {
     this.setState(state);
   }
   setModalFilters(visible) {
+    dismissKeyboard();
     this.setState({showFilters: visible});
   }
   setModalSort(visible) {
+    dismissKeyboard();
     this.setState({showSort: visible});
   }
 
@@ -178,6 +127,20 @@ class Home extends Component {
     return searchFilters;
   }
 
+  renderTitle = () => {
+    return(
+      <SearchBar
+        TextInput={{
+          onChangeText: this.onChangeText, 
+          placeholder: "Search near me",
+        }}
+        Button={{
+          disabled: this.state.searchTerm.trim().length === 0 ? true : false,
+          onPress: this.searchPlaces
+        }}
+      />
+    )
+  }
 
   render() {
     const { places,  places_refreshing} = this.props;
@@ -208,30 +171,20 @@ class Home extends Component {
           )
         }else{
         return (
-          <Container>
+          <KeyboardAwareScrollView
+            ref='scroll'
+            keyboardShouldPersistTaps="always"
+            extraHeight={125}
+          >
 
             <OpenMap open={this.state.openMap} place={this.state.place} setOpenMap={this.setOpenMap}/>
-            <Header searchBar rounded style={basicStyles.navigationBarStyle}>
-              <Item style={basicStyles.inputSearch}>
-                <Icon name="search" />
-                <Input
-                  onChangeText={this.onChangeText}
-                  placeholder="Search near me" />
-              </Item>
-              <Button
-                disabled={this.state.searchTerm.trim().length === 0 ? true : false}
-                onPress={this.searchPlaces}
-                color={colors.principal}
-                title="Search"
-              />
-            </Header>
 
             <View style={styles.containerFilters}>
               <TouchableOpacity 
                 style={styles.sort}
                 onPress={this.setModalSort.bind(this, !this.state.showSort)}>
-                <Icon name="sort-down" size={30} color={colors.grayLighter} style={styles.iconSort}/>
-                <Icon name="list" size={30} color={colors.grayLighter} />
+                <Icon name="sort" size={30} color={colors.principal} style={styles.iconSort}/>
+                <Icon name="list" size={30} color={colors.principal} />
               </TouchableOpacity>
               <TouchableOpacity 
                 onPress={this.setModalFilters.bind(this, !this.state.showFilters)}
@@ -251,7 +204,7 @@ class Home extends Component {
               }
             />
         
-          </Container>
+          </KeyboardAwareScrollView>
         );
       }
     }
