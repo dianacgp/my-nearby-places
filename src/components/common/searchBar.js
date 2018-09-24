@@ -18,6 +18,12 @@ const styles =  StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
+  containerError: {
+    flex: 1,
+    padding: 11,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   containerIconText: {
     backgroundColor: colors.inputSearch,
     flexDirection: 'row',
@@ -38,8 +44,9 @@ const styles =  StyleSheet.create({
     backgroundColor: colors.inputSearch,
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 15,
-    padding: 10,
+    padding: 5,
     paddingLeft: 0,
     marginRight: 5,
   },
@@ -59,27 +66,25 @@ const styles =  StyleSheet.create({
     paddingVertical: 10,
   },
   containerSearchBar:{
-    backgroundColor: 'green',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    
-    borderBottomColor: colors.grayMedium,
+    borderBottomWidth: 0.5,
+    borderBottomColor: colors.grayVeryLight,
+
     ...Platform.select({
       ios: {
         paddingRight: 10,
-        paddingTop: 30,
+        paddingTop: 21,
         paddingBottom: 3,
       },
       android: {
         paddingRight: 15,
-        paddingTop: 30,
-        paddingBottom: 3,
+        paddingTop: 35,
+        paddingBottom: 5,
       }
     }),
   },
   iconBack: {
-    backgroundColor: 'blue',
     ...Platform.select({
       ios: {
         width: 40,
@@ -89,8 +94,6 @@ const styles =  StyleSheet.create({
         paddingHorizontal: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        //paddingTop: 10, 
-
       }
     }),
    
@@ -104,7 +107,12 @@ class SearchBar extends Component {
   render(){
 
     if(this.props.error_location){
-      return(<Text style={[basicStyles.textButtonPrincipal, basicStyles.textCenter]}>My Nearby Places</Text>)
+      return(
+        <View style={styles.containerError} >
+          <Text style={[basicStyles.textButtonPrincipal, basicStyles.textCenter]}>My Nearby Places</Text>
+        </View>
+      )
+        
     }else{
       if( this.props.openModalSearch && this.props.onPress){
 
@@ -139,7 +147,7 @@ class SearchBar extends Component {
                  />
               </View>
             </View>
-            <View style={{flexDirection: 'row', backgroundColor: 'pink'}}>
+            <View style={{flexDirection: 'row'}}>
               { this.props.refreshing &&
               <ActivityIndicator size="small" color={colors.principal} />
               }

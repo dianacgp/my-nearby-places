@@ -9,7 +9,7 @@ import CardSuggestion from './common/cardSuggestion';
 import OpenMap from './common/openMap';
 import Message from './common/message';
 import Modal from "react-native-simple-modal";
-import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from './common/spinner';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Constants, Location, Permissions } from 'expo';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -50,14 +50,17 @@ class Home extends Component {
     let _this = this;
     Permissions.askAsync(Permissions.LOCATION)
     .then((response) => {
-
+      console.log('response', response)
       if( response.status !== 'granted'){
         this.setState({
           errorMessage: 'Permission to access location was denied',
+          spinner: false,
         });
       }
       Location.getCurrentPositionAsync({})
       .then((location) => {
+      console.log('location', location)
+
         this.setState({
           errorMessage: null,
           ll:  location.coords.latitude + ',' + location.coords.longitude,
@@ -67,6 +70,7 @@ class Home extends Component {
         this.props.setErrorLocation(false);
       })
       .catch((error) => {
+        console.log('error', error)
         this.setState({
           errorMessage: error,
           spinner: false
@@ -75,6 +79,8 @@ class Home extends Component {
       })
     })
     .catch((error) => {
+      console.log('error', error)
+
       this.props.setErrorLocation(true);
       this.setState({
         errorMessage: error,
@@ -199,14 +205,13 @@ class Home extends Component {
 
   render() {
     const { suggestions,  suggestions_refreshing} = this.props;
-    const {  errorMessage } = this.state;
+    const {  errorMessage, spinner } = this.state;
 
+    if (spinner){
+      this.renderLoading();
+    }
     return (
       <View>
-        <View>
-          <Spinner visible={this.state.spinner} />
-        </View>
-
         {errorMessage !== null &&
           <Message 
             messageError={errorMessage.toString()} 

@@ -13,7 +13,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   navigationBarStyle: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   navigationBarStyleBlack: {
     backgroundColor: 'black',
