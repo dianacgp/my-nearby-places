@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, FlatList, Geolocation, TouchableOpacity, Image, StyleSheet, Button, InteractionManager } from 'react-native';
-import { getPlaces, setSearchPlace } from '../../reducers/places/actions';
+import { View, FlatList, TouchableOpacity, Image, StyleSheet, Button, InteractionManager } from 'react-native';
+import { getPlaces, setSearchPlace, setErrorLocation } from '../../reducers/places/actions';
 import { connect } from 'react-redux';
 import basicStyles from '../../styles/styles';
 import { Actions } from 'react-native-router-flux';
@@ -16,6 +16,7 @@ import Modal from "react-native-simple-modal";
 import Styles from './styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const dismissKeyboard = require('dismissKeyboard');
+import { Constants, Location, Permissions } from 'expo';
 
 class Search extends Component {
 
@@ -27,7 +28,7 @@ class Search extends Component {
       latitude: null,
       longitude: null,
       ll: '',
-      error: null,
+      errorMessage: null,
       searchTerm: this.props.search_place,
       openMap: false,
       place: null,
@@ -38,26 +39,50 @@ class Search extends Component {
   }
 
   componentDidMount(){
+
     InteractionManager.runAfterInteractions(() => {  
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.setState({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            error: null,
-            //ll: '48.8583701,2.2922926',
-            ll:  position.coords.latitude + ',' + position.coords.longitude,
-          });
-          //Actions.refresh({renderTitle: this.renderTitle})
-        },
-        (error) => {
-          this.setState({ error: error.message });
-          console.log('error', error)
-        },
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-      );
+      this.getLocationAsync();
     });
   }
+  getLocationAsync =  () => {
+
+    let _this = this;
+
+    Permissions.askAsync(Permissions.LOCATION)
+    .then((response) => {
+
+      if( response.status !== 'granted'){
+        this.setState({
+          errorMessage: 'Permission to access location was denied',
+        });
+      }
+      Location.getCurrentPositionAsync({})
+      .then((location) => {
+        this.setState({
+          errorMessage: null,
+          ll:  location.coords.latitude + ',' + location.coords.longitude,
+          spinner: false,
+        });
+        this.props.setErrorLocation(false);
+      })
+      .catch((error) => {
+        this.setState({
+          errorMessage: error,
+          spinner: false
+        });
+        this.props.setErrorLocation(true);
+      })
+    })
+    .catch((error) => {
+      this.props.setErrorLocation(true);
+      this.setState({
+        errorMessage: error,
+        spinner: false
+      });
+    });
+  }
+    
+   
 
   getPlaces = (data) => {
     this.props.getPlaces(data)
@@ -77,7 +102,6 @@ class Search extends Component {
     this.setState({
       searchTerm: text,
     });
-    //Actions.refresh({renderTitle: this.renderTitle})
 
   }
   searchPlaces = (  ) => {
@@ -133,9 +157,10 @@ class Search extends Component {
   }
 
   renderTitle = () => {
-    return(
+    return(   
       <SearchBar
-        showButton= {true}
+        route='search'
+        showButton={true}
         refreshing={this.props.places_refreshing}
         TextInput={{
           onChangeText: this.onChangeText, 
@@ -174,21 +199,21 @@ class Search extends Component {
         <TouchableOpacity 
           style={styles.sort}
           onPress={this.setModalSort.bind(this, !this.state.showSort)}>
-          <Icon name="sort" size={30} color={colors.principal} style={styles.iconSort}/>
-          <Icon name="list" size={30} color={colors.principal} />
+          <Icon name="sort" size={25} color={colors.principal} style={styles.iconSort}/>
+          <Icon name="list" size={25} color={colors.principal} />
         </TouchableOpacity>
         <TouchableOpacity 
           onPress={this.setModalFilters.bind(this, !this.state.showFilters)}
           >
-          <Icon name="filter" size={30} color={ filters.size > 1 ?  colors.principal : colors.grayLighter} />
+          <Icon name="filter" size={25} color={ filters.size > 1 ?  colors.principal : colors.grayLighter} />
         </TouchableOpacity>
       </View>
     );
   }
 
   render() {
-    const { places,  places_refreshing} = this.props;
-    const {filters, showFilters} = this.state;
+    const { places,  places_refreshing, error_location} = this.props;
+    const { filters, showFilters, errorMessage } = this.state;
 
     if (this.state.showFilters){
       return(
@@ -215,33 +240,42 @@ class Search extends Component {
           )
         }else{
         return (
-          <KeyboardAwareScrollView
-            ref='scroll'
-            keyboardShouldPersistTaps="always"
-            extraHeight={125}
-          >
-
-            <OpenMap open={this.state.openMap} place={this.state.place} setOpenMap={this.setOpenMap}/>
-            {this.renderTitle()}
-            {this.renderHeader()}
-
-            <View style={{minHeight: 500}}>
-              <FlatList
-
-                keyboardShouldPersistTaps="always"
-                showsVerticalScrollIndicator={false}
-                ListFooterComponent={this.renderFooter}
-                refreshing={places_refreshing}
-                data = {places.toJS()}
-                onRefresh={this.searchPlaces}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem = {({ item, index }) =>         
-                  <CardSuggestion item={item} index={index} set={this.set}/>
-                }
+          <View>
+            {errorMessage !== null &&
+              <Message 
+                messageError={errorMessage.toString()} 
+                textReload='Try Again' 
+                error={true}
+                reload={this.componentDidMount.bind(this)}
               />
-            </View>
-        
-          </KeyboardAwareScrollView>
+            }
+            <OpenMap open={this.state.openMap} place={this.state.place} setOpenMap={this.setOpenMap}/>
+            { errorMessage === null && this.renderTitle()}
+            { errorMessage === null && this.renderHeader()}
+            <KeyboardAwareScrollView
+              ref='scroll'
+              keyboardShouldPersistTaps="always"
+              extraHeight={125}
+            >
+              <View style={{minHeight: 500}}>
+                {errorMessage === null &&
+                  <FlatList
+
+                    keyboardShouldPersistTaps="always"
+                    showsVerticalScrollIndicator={false}
+                    ListFooterComponent={this.renderFooter}
+                    refreshing={places_refreshing}
+                    data = {places.toJS()}
+                    onRefresh={this.searchPlaces}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem = {({ item, index }) =>         
+                      <CardSuggestion item={item} index={index} set={this.set}/>
+                    }
+                  />
+                }
+              </View>
+            </KeyboardAwareScrollView>
+          </View>
         );
       }
     }
@@ -255,7 +289,8 @@ const mapStateToProps = state => {
     places_error: state.places.places_error,
     places_loaded: state.places.places_loaded,
     search_place:  state.places.search_place,
+    error_location: state.places.error_location
   }
 }
 
-export default connect(state => ( mapStateToProps), { getPlaces, setSearchPlace })(Search);
+export default connect(state => ( mapStateToProps), { getPlaces, setSearchPlace, setErrorLocation })(Search);

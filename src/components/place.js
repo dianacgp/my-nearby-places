@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import styles from '../styles/styles';
 import { Actions } from 'react-native-router-flux';
 import { Popup } from 'react-native-map-link';
-import call from 'react-native-phone-call';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Spinner from './common/spinner';
 import Categories from './common/categories';
@@ -13,7 +12,7 @@ import Attributes from './common/attributes';
 import Info from './common/info';
 import Photos from './common/photos/photos';
 import OpenMap from './common/openMap';
-
+import Message from './common/message';
 
 class Place extends Component {
 
@@ -25,6 +24,7 @@ class Place extends Component {
       openMap: false,
       photos: [],
       photosOriginal: [],
+      error: true,
 
     };
   }
@@ -39,8 +39,6 @@ class Place extends Component {
       getPlace(item.venue.id)
       .then((response) => {
         let place = response.value.response.venue;
-
-        //Actions.refresh({backTitle: place.name})
         
         if (place.photos.count > 0){
           place.photos.groups.map((group, i)=> {
@@ -51,26 +49,16 @@ class Place extends Component {
 
             });
           });
-          console.log('place', place);
          
         }
-        this.setState({spinner: false, place: place, photos: photos, photosOriginal: photosOriginal});
+        this.setState({spinner: false, place: place, photos: photos, photosOriginal: photosOriginal, error: false});
         
       })
       .catch((e) => {
-        console.log('e', e)
+        this.setState({error: true, spinner: false});
+        
       });
     });
-  }
-
-  openCallNumber = () => {
-    const { place } = this.state;
-
-    const args = {
-      number: place.contact.formattedPhone, // String value with the number to call
-      prompt: false // Optional boolean property. Determines if the user should be prompt prior to the call 
-    }
-    call(args).catch('error phone', console.error)
   }
 
   renderLoading = () => {
@@ -86,40 +74,47 @@ class Place extends Component {
 
   render() {
     const { item } = this.props;
-    const { place, spinner } = this.state;
+    const { place, spinner, error } = this.state;
 
     if (spinner){
       return this.renderLoading();
-    }
-    return (
-      <ScrollView style={styles.containerGray}>
-        <OpenMap open={this.state.openMap} place={place} setOpenMap={this.setOpenMap}/>
-        {place.photos.count > 0 &&
-          <Photos photos={this.state.photos} photosOriginal ={this.state.photosOriginal}/>
-        }
-        <View style={styles.containerPlace}>
-          <View style={styles.containerNamePlace}>
-            <View style={[styles.rating, styles.center]}>
-              <Text style={styles.textRating}>{place.rating}</Text>
+    }else{
+      if (error){
+        return (<Message error={true} reload={this.componentDidMount.bind(this)}/>)
+
+      }else{
+    
+        return (
+          <ScrollView style={styles.containerGray}>
+            <OpenMap open={this.state.openMap} place={place} setOpenMap={this.setOpenMap}/>
+            {place.photos.count > 0 &&
+              <Photos photos={this.state.photos} photosOriginal ={this.state.photosOriginal}/>
+            }
+            <View style={styles.containerPlace}>
+              <View style={styles.containerNamePlace}>
+                <View style={[styles.rating, styles.center]}>
+                  <Text style={styles.textRating}>{place.rating}</Text>
+                </View>
+                <Text style={styles.textNameBig}>{place.name}</Text>
+              </View>
+              <Text style={[styles.textSmall, styles.marginBottomSmall]}>
+                {place.location.formattedAddress} 
+                <Text style={[styles.textSmall, styles.textBold]} onPress={() => {this.setState({ openMap: true }) }}> (Open in Maps)
+                </Text>
+              </Text>
+              <Categories place={place}/>
+              <Info place={place}/>
             </View>
-            <Text style={styles.textNameBig}>{place.name}</Text>
-          </View>
-          <Text style={[styles.textSmall, styles.marginBottomSmall]}>
-            {place.location.formattedAddress} 
-            <Text style={[styles.textSmall, styles.textBold]} onPress={() => {this.setState({ openMap: true }) }}> (Open in Maps)
-            </Text>
-          </Text>
-          <Categories place={place}/>
-          <Info place={place}/>
-        </View>
-        <View style={styles.separator}>
-          <Text style={[styles.textNormal, styles.textBold]}>SERVICES</Text>
-        </View>
-        <View style={styles.containerPlace}>
-          <Attributes attributes={place.attributes}/>
-        </View>
-      </ScrollView>
-    );
+            <View style={styles.separator}>
+              <Text style={[styles.textNormal, styles.textBold]}>SERVICES</Text>
+            </View>
+            <View style={styles.containerPlace}>
+              <Attributes attributes={place.attributes}/>
+            </View>
+          </ScrollView>
+        );
+      }
+    }
   }
 }
 

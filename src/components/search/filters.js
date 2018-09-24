@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, ScrollView, TouchableOpacity, Button } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import colors from '../../../colors'
 import basicStyles from '../../styles/styles';
@@ -65,7 +65,6 @@ class Filters extends Component {
                 </TouchableOpacity>
               )}
             </View>
-            
           </View>
           <View style={styles.item}>
             <Text style={[basicStyles.textNormal, basicStyles.textBold]}>Open Now</Text>
@@ -77,12 +76,12 @@ class Filters extends Component {
                 >Yes</Text>
             </TouchableOpacity>
           </View>
-          <Button
+          <TouchableOpacity
             onPress={this.closeModal}
-            title="Close"
-            color={colors.principal}
-            accessibilityLabel="Close"
-          /> 
+            style={basicStyles.buttonPrincipal}
+            >
+              <Text style={basicStyles.textButtonPrincipal}>Close</Text>
+            </TouchableOpacity>  
         </ScrollView>
       );
     }else{

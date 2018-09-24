@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../../../colors';
 import basicStyles from '../../styles/styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
   },
   textCenter: {
     textAlign: 'center',
+  },
+  button: {
+    marginTop: 10,
   }
 
 });
@@ -44,11 +47,12 @@ export default class Message extends Component {
               }
             </Text>
             {error && reload &&
-            <Button
+            <TouchableOpacity
               onPress={reload}
-              title= {textReload ? textReload : "Try again"}
-              color={colors.principal}
-            /> 
+              style={[basicStyles.buttonPrincipal, styles.button]}
+            >
+              <Text style={basicStyles.textButtonPrincipal}> {textReload ? textReload : "Try again"}</Text>
+            </TouchableOpacity> 
             }
           </View>    
       </TouchableOpacity>

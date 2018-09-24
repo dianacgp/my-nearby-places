@@ -23,6 +23,8 @@ const InitialState = Record({
 
   search_place: '',
 
+  error_location: false,
+
 
 });
 
@@ -32,7 +34,12 @@ export default function places_reducer(state = initialState, action) {
   if (!(state instanceof InitialState)) return initialState.mergeDeep(state);
 
   switch (action.type) {
+      case `${actions.SET_ERROR_LOCATION}`:
 
+      return state.merge({
+        error_location: action.payload,
+      });
+    //------------------------------------------------
 
     case `${actions.SET_SEARCH_PLACE}`:
 

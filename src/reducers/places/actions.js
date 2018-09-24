@@ -3,7 +3,14 @@ export const GET_PLACE = 'GET_PLACE';
 export const GET_SUGGESTIONS_FULFILLED = 'GET_SUGGESTIONS';
 export const AUTOCOMPLETE  = 'AUTOCOMPLETE';
 export const SET_SEARCH_PLACE  = 'SET_SEARCH_PLACE';
+export const SET_ERROR_LOCATION  = 'SET_ERROR_LOCATION';
 
+export function setErrorLocation(value) {
+  return {
+    type: SET_ERROR_LOCATION,
+    payload: value
+  };
+}
 export function setSearchPlace(value) {
   return {
     type: SET_SEARCH_PLACE,

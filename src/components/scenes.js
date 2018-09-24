@@ -20,18 +20,23 @@ const reducerCreate = params => {
   };
 };
 
-// const stateHandler = (prevState, newState, action) => {
-//   console.log('onStateChange: ACTION:', action);
-// };
 search = () => {
   return (
     <SearchBar
+      route='home'
       showButton= {false}
       onPress={Actions.modal_search}
       openModalSearch={true}
     />
   );
 };
+back = () => {
+  try {
+    Actions.pop();
+  } catch(e) {
+    console.log('error root scene');
+  }
+}
 const Scenes = () => (
   <Router 
     createReducer={reducerCreate} 
@@ -46,11 +51,11 @@ const Scenes = () => (
             <Scene initial component={Home} type={ActionConst.RESET} hideNavBar={false} 
               renderTitle={() => this.search()}
               />
-            <Scene key="location" hideNavBar component={Location}/>
-            <Scene key="modal_search" hideNavBar={false} component={Search}  back={true} />
-            <Scene key="modal_place" component={Place} hideNavBar={false} back={true}  />
-            <Scene key="modal_gallery" component={Gallery} hideNavBar={false} navigationBarStyle={styles.navigationBarStyleBlack} back={true} />
-            <Scene key="modal_webview" component={WebView} hideNavBar={false} back={true} />
+            <Scene key="location" hideNavBar component={Location} back={false}/>
+            <Scene key="modal_search" hideNavBar component={Search} onBack={this.back} back={true} />
+            <Scene key="modal_place" hideNavBar component={Place} hideNavBar={false} onBack={this.back} back={true}  />
+            <Scene key="modal_gallery" component={Gallery} hideNavBar={false} navigationBarStyle={styles.navigationBarStyleBlack} onBack={this.back} back={true} />
+            <Scene key="modal_webview" component={WebView} hideNavBar={false} onBack={this.back} back={true} />
           </Stack>
         </Lightbox>
       </Modal>

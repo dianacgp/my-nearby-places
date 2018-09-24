@@ -31,6 +31,9 @@ export default StyleSheet.create({
   flex: {
     flex: 1,
   },
+  containerListHome: {
+    height: height + 100,
+  },
   //suggestions
   containerSuggestions: {
     flexDirection: 'row',
@@ -118,6 +121,9 @@ export default StyleSheet.create({
   textLink: {
     color: colors.principal,
   },
+  textCenter: {
+    textAlign: 'center' ,
+  },
   //place
   textNameBig: {
     color: colors.textSecondary,
@@ -152,7 +158,13 @@ export default StyleSheet.create({
     color: 'white',
     fontSize: 12,
   },
-
+  buttonPrincipal: {
+    justifyContent: 'center',
+  },
+  textButtonPrincipal: {
+    color: colors.principal,
+    fontSize: 18,
+  },
   //padding and margin 
   marginBottomSmall: {
     marginBottom: 5,

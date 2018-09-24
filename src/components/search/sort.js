@@ -40,25 +40,23 @@ class Sort extends Component {
           >
           <View style={styles.item}>
             <Text style={[basicStyles.textNormal, basicStyles.textBold]}>Sort by</Text>
-           
-              <TouchableOpacity 
-                style={filters.has('sortByDistance') ? styles.filterActive : styles.filterInactive} 
-                onPress={this.setFilter.bind(this, 'sortByDistance', {category: 'sortByDistance', value: 1})}>
-                <Text style={ filters.has('sortByDistance') ? styles.textFilterActive : styles.textFilterInactive}>Distance</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity 
-                style={!filters.has('sortByDistance') ? styles.filterActive : styles.filterInactive} 
-                onPress={this.setFilter.bind(this, 'sortByDistance', {category: 'sortByDistance', value: 1})}>
-                <Text style={ !filters.has('sortByDistance') ? styles.textFilterActive : styles.textFilterInactive}>Rating</Text>
-              </TouchableOpacity>
+            <TouchableOpacity 
+              style={filters.has('sortByDistance') ? styles.filterActive : styles.filterInactive} 
+              onPress={this.setFilter.bind(this, 'sortByDistance', {category: 'sortByDistance', value: 1})}>
+              <Text style={ filters.has('sortByDistance') ? styles.textFilterActive : styles.textFilterInactive}>Distance</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={!filters.has('sortByDistance') ? styles.filterActive : styles.filterInactive} 
+              onPress={this.setFilter.bind(this, 'sortByDistance', {category: 'sortByDistance', value: 1})}>
+              <Text style={ !filters.has('sortByDistance') ? styles.textFilterActive : styles.textFilterInactive}>Rating</Text>
+            </TouchableOpacity>
           </View>
-          <Button
+          <TouchableOpacity
             onPress={this.closeModal}
-            title="Close"
-            color={colors.principal}
-            accessibilityLabel="Close"
-          />
+            style={basicStyles.buttonPrincipal}
+            >
+              <Text style={basicStyles.textButtonPrincipal}>Close</Text>
+          </TouchableOpacity> 
             
       </ScrollView>
       );

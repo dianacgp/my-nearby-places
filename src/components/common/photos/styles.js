@@ -25,5 +25,10 @@ export default StyleSheet.create({
     height: width / 2,
     borderColor: 'white',
     borderWidth: 1,
+  },
+  centerFlex: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
