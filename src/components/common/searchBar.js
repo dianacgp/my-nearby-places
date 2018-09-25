@@ -122,7 +122,7 @@ class SearchBar extends Component {
             <View style={styles.containerIconText}>
               <Icon name="search" color={colors.grayMedium} size={16} style={styles.iconSearchBar} />
               <Text style={styles.textSearch}
-              >Search near me</Text>
+              >What are you looking ...?</Text>
             </View>
           </TouchableOpacity>
         )

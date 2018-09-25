@@ -1,14 +1,32 @@
-export const GET_PLACES_FULFILLED = 'GET_PLACES';
+export const GET_PLACES_FULFILLED = 'GET_PLACES_FULFILLED';
 export const GET_PLACE = 'GET_PLACE';
-export const GET_SUGGESTIONS_FULFILLED = 'GET_SUGGESTIONS';
+export const RECOMMENTATIONS_FOOD_FULFILLED = 'RECOMMENTATIONS_FOOD_FULFILLED';
+export const RECOMMENTATIONS_COFFEE = 'RECOMMENTATIONS_COFFEE';
+export const RECOMMENTATIONS_DRINKS = 'RECOMMENTATIONS_DRINKS';
+export const RECOMMENTATIONS_ARTS = 'RECOMMENTATIONS_ARTS';
+export const RECOMMENTATIONS_SHOPS = 'RECOMMENTATIONS_SHOPS';
+export const GET_SUGGESTIONS_FULFILLED = 'GET_SUGGESTIONS_FULFILLED';
 export const AUTOCOMPLETE  = 'AUTOCOMPLETE';
 export const SET_SEARCH_PLACE  = 'SET_SEARCH_PLACE';
 export const SET_ERROR_LOCATION  = 'SET_ERROR_LOCATION';
+export const DELETE_AUTOCOMPLETE  = 'DELETE_AUTOCOMPLETE';
+export const SET_LL  = 'SET_LL';
 
+export function setLL(value) {
+  return {
+    type: SET_LL,
+    payload: value
+  };
+}
 export function setErrorLocation(value) {
   return {
     type: SET_ERROR_LOCATION,
     payload: value
+  };
+}
+export function deleteAutocomplete() {
+  return {
+    type: DELETE_AUTOCOMPLETE,
   };
 }
 export function setSearchPlace(value) {
@@ -43,7 +61,6 @@ export function getPlaces(data) {
   return ({ apiUrl, authorization }) => {
      
     const  url = apiUrl() + 'search/recommendations?' + authorization + '&v=20180323&ll='+data.ll+'&query='+ data.query + data.filters;
-
     return {
       type: 'GET_PLACES',
       payload: fetch(url, {
@@ -61,10 +78,10 @@ export function getPlaces(data) {
   };
 }
 
-export function getAutocomplete(data) {
+export function getAutocomplete(ll, query) {
   return ({ apiUrl, authorization }) => {
      
-    const  url = apiUrl() + 'search/autocomplete?' + authorization + '&v=20180323&ll='+data.ll+'&query='+ data.query;
+    const  url = apiUrl() + 'search/autocomplete?explicit-lang=true&group=unified&' + authorization + '&v=20180323&ll='+ll+'&query='+ query;
 
     return {
       type: AUTOCOMPLETE,
@@ -82,13 +99,24 @@ export function getAutocomplete(data) {
     };
   };
 }
-export function getSuggestions(data) {
-  return ({ apiUrl, authorization }) => {
-     
-    const  url = apiUrl() + 'search/recommendations?' + authorization + '&v=20180323&ll='+data.ll+'&section='+ data.section;
+export function getSuggestions(section, data) {
+    return ({ apiUrl, authorization }) => {
+    const  url = apiUrl() + 'search/recommendations?' + authorization + '&v=20180323&ll='+data.ll+'&section='+ data.section+ '&sortByDistance=1';
 
     return {
-      type: 'GET_SUGGESTIONS',
+      type: 
+        section === 'food' ? 
+          'RECOMMENTATIONS_FOOD' 
+        : section === 'coffee' ? 
+          RECOMMENTATIONS_COFFEE
+        : section === 'drinks' ? 
+          RECOMMENTATIONS_DRINKS 
+        : section === 'arts' ?
+          RECOMMENTATIONS_ARTS
+        : section === 'shops' ?
+          RECOMMENTATIONS_SHOPS
+        :
+          'RECOMMENTATIONS_FOOD' ,
       payload: fetch(url, {
         method: 'GET',
       })

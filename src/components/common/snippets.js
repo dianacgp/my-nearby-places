@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 export default class Snippets extends Component {
   render() {
     const { snippets} = this.props;
-    console.log()
+
     return (
       <View>
         { snippets.count > 0 && snippets.items.map((snippet, i) =>

@@ -30,13 +30,13 @@ class Place extends Component {
   }
 
   componentDidMount(){
-    const { item, getPlace} = this.props;
+    const { idVenue, getPlace} = this.props;
     this.setState({spinner: true});
     let photos = [];
     let photosOriginal = [];
     InteractionManager.runAfterInteractions(() => {  
 
-      getPlace(item.venue.id)
+      getPlace(idVenue)
       .then((response) => {
         let place = response.value.response.venue;
         
@@ -85,7 +85,11 @@ class Place extends Component {
       }else{
     
         return (
-          <ScrollView style={styles.containerGray}>
+          <ScrollView 
+            keyboardShouldPersistTaps="always"
+            showsVerticalScrollIndicator={false}
+            style={styles.containerGray}
+            >
             <OpenMap open={this.state.openMap} place={place} setOpenMap={this.setOpenMap}/>
             {place.photos.count > 0 &&
               <Photos photos={this.state.photos} photosOriginal ={this.state.photosOriginal}/>

@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import { View, FlatList, TouchableOpacity, Image, StyleSheet, Button, InteractionManager } from 'react-native';
-import { getPlaces, setSearchPlace, setErrorLocation } from '../../reducers/places/actions';
+import { View, FlatList, TouchableOpacity, Image, StyleSheet, Button, InteractionManager, Text } from 'react-native';
+import { getPlaces, setSearchPlace, setErrorLocation, getAutocomplete, deleteAutocomplete } from '../../reducers/places/actions';
 import { connect } from 'react-redux';
 import basicStyles from '../../styles/styles';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../../../colors'
-import CardSuggestion from '../common/cardSuggestion';
+import CardPlace from '../common/cardPlace';
+import CardAutocomplete from './cardAutocomplete';
 import SearchBar from '../common/searchBar';
 import OpenMap from '../common/openMap';
 import Filters from './filters';
 import Message from '../common/message';
 import Sort from './sort';
 import Modal from "react-native-simple-modal";
-import Styles from './styles';
+import styles from './styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const dismissKeyboard = require('dismissKeyboard');
 import { Constants, Location, Permissions } from 'expo';
@@ -34,7 +35,8 @@ class Search extends Component {
       place: null,
       showSort: false,
       showFilters: false, 
-      filters: new Map()
+      filters: new Map(),
+      error: false,
     };
   }
 
@@ -86,11 +88,10 @@ class Search extends Component {
 
   getPlaces = (data) => {
     this.props.getPlaces(data)
-    .then((response) => {
-      console.log('response', response);
-    })
     .catch((e) => {
-      console.log('e', e)
+      this.setState({
+        error: true,
+      });
     })
   }
   setOpenMap = (value) => {
@@ -98,26 +99,36 @@ class Search extends Component {
   }
   
   onChangeText = (text) => {
+    const { ll} = this.state;
 
     this.setState({
       searchTerm: text,
     });
+    this.props.getAutocomplete(ll, text)
+    .catch((error) => {
+      this.setState({
+        error: true,
+      });
+    })
+
 
   }
-  searchPlaces = (  ) => {
+  searchPlaces = ( searchTerm  ) => {
+
     dismissKeyboard();
-    const { searchTerm, ll } = this.state;
+    const { ll } = this.state;
+
     const data = {query: searchTerm, ll: ll, filters: this.getFilters() };
     this.props.setSearchPlace(searchTerm);
     this.props.getPlaces(data)
-    .then((response) => {
-      console.log('response', response);
-    })
     .catch((e) => {
-      console.log('e', e)
+      this.setState({
+        error: true,
+      });
     });
   }
   set = ( state ) => {
+
     this.setState(state);
   }
   setModalFilters(visible) {
@@ -164,28 +175,44 @@ class Search extends Component {
         refreshing={this.props.places_refreshing}
         TextInput={{
           onChangeText: this.onChangeText, 
-          placeholder: "Search near me",
+          placeholder: "What are you looking ... ?",
           value: this.state.searchTerm,
           autoFocus: false,
         }}
         Button={{
           disabled: this.state.searchTerm.trim().length === 0 ? true : false,
-          onPress: this.searchPlaces
+          onPress: this.searchPlaces.bind(this, this.state.searchTerm)
         }}
       />
     )
   }
   renderFooter = () => {
 
-    const { places, places_error, places_loaded  } = this.props;
+    const { places, places_error, places_loaded } = this.props;
 
     return(
       <View>
         {
           places_error ? 
-            <Message error={true} reload={this.searchPlaces}/>
+            <Message error={true} reload={this.searchPlaces.bind(this, this.state.searchTerm)}/>
         :
           places.size === 0 && places_loaded &&
+            <Message message='We do not find results near you'/>
+        }
+      </View>
+    )
+  }
+  renderFooterAutocomplete = () => {
+
+    const { autocomplete, autocomplete_error, autocomplete_loaded  } = this.props;
+
+    return(
+      <View>
+        {
+          autocomplete_error ? 
+            <Message error={true} reload={this.searchPlaces.bind(this, this.state.searchTerm)}/>
+        :
+          autocomplete.size === 0 && autocomplete_loaded &&
             <Message message='We do not find results near you'/>
         }
       </View>
@@ -205,15 +232,19 @@ class Search extends Component {
         <TouchableOpacity 
           onPress={this.setModalFilters.bind(this, !this.state.showFilters)}
           >
-          <Icon name="filter" size={25} color={ filters.size > 1 ?  colors.principal : colors.grayLighter} />
+          <Icon name="filter" size={25} color={ filters.size > 0 ?  colors.principal : colors.grayMedium} />
         </TouchableOpacity>
       </View>
     );
   }
+  renderHeaderAutocomplete = () => {
+    return <Text style={[basicStyles.textNormal, basicStyles.textCenter, basicStyles.bold, ]}>Quick suggestions</Text>
+  }
 
   render() {
-    const { places,  places_refreshing, error_location} = this.props;
-    const { filters, showFilters, errorMessage } = this.state;
+    const { places,  places_refreshing, error_location, autocomplete, autocomplete_refreshing} = this.props;
+    const { filters, showFilters, errorMessage, searchTerm } = this.state;
+
 
     if (this.state.showFilters){
       return(
@@ -222,7 +253,7 @@ class Search extends Component {
           open={this.state.showFilters}
           style={{flex: 1}}
         > 
-          <Filters set={this.set} filters={filters} searchPlaces={this.searchPlaces}/>
+          <Filters set={this.set} filters={filters} searchPlaces={this.searchPlaces.bind(this, this.state.searchTerm)}/>
         </Modal>
 
       )
@@ -234,13 +265,13 @@ class Search extends Component {
               open={this.state.showSort}
               style={{flex: 1}}
             > 
-              <Sort set={this.set} filters={filters} searchPlaces={this.searchPlaces}/>
+              <Sort set={this.set} filters={filters} searchPlaces={this.searchPlaces.bind(this, this.state.searchTerm)}/>
             </Modal>
 
           )
         }else{
         return (
-          <View>
+          <View style={basicStyles.flex}>
             {errorMessage !== null &&
               <Message 
                 messageError={errorMessage.toString()} 
@@ -249,31 +280,53 @@ class Search extends Component {
                 reload={this.componentDidMount.bind(this)}
               />
             }
+
             <OpenMap open={this.state.openMap} place={this.state.place} setOpenMap={this.setOpenMap}/>
             { errorMessage === null && this.renderTitle()}
             { errorMessage === null && this.renderHeader()}
+            { errorMessage === null && this.renderFooter()}
+            { errorMessage === null &&  autocomplete.size > 0 && this.renderHeaderAutocomplete()}
+           
+           
             <KeyboardAwareScrollView
               ref='scroll'
+              enableOnAndroid={true} 
               keyboardShouldPersistTaps="always"
               extraHeight={125}
+              showsVerticalScrollIndicator={false}
             >
-              <View style={{minHeight: 500}}>
-                {errorMessage === null &&
+  
+              {errorMessage === null && autocomplete.size === 0 ?
+                <View style={basicStyles.minContainerList}>
                   <FlatList
-
                     keyboardShouldPersistTaps="always"
                     showsVerticalScrollIndicator={false}
-                    ListFooterComponent={this.renderFooter}
+                    //ListHeaderComponent={this.renderHeaderAutocomplete}
                     refreshing={places_refreshing}
                     data = {places.toJS()}
-                    onRefresh={this.searchPlaces}
+                    onRefresh={this.searchPlaces.bind(this, this.state.searchTerm)}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem = {({ item, index }) =>         
-                      <CardSuggestion item={item} index={index} set={this.set}/>
+                      <CardPlace item={item} index={index} set={this.set}/>
                     }
                   />
+                </View>
+                : errorMessage === null && 
+                <View style={basicStyles.minContainerList}>
+                  <FlatList
+                    keyboardShouldPersistTaps="always"
+                    showsVerticalScrollIndicator={false}
+                    ListFooterComponent={this.renderFooterAutocomplete}
+                    refreshing={autocomplete_refreshing}
+                    data = {autocomplete.toJS()}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem = {({ item, index }) =>         
+                      <CardAutocomplete item={item} index={index} searchPlaces={this.searchPlaces} set={this.set}/>
+                    }
+                    />
+                  </View>
                 }
-              </View>
+      
             </KeyboardAwareScrollView>
           </View>
         );
@@ -289,8 +342,12 @@ const mapStateToProps = state => {
     places_error: state.places.places_error,
     places_loaded: state.places.places_loaded,
     search_place:  state.places.search_place,
-    error_location: state.places.error_location
+    error_location: state.places.error_location,
+    autocomplete: state.places.autocomplete,
+    autocomplete_refreshing: state.places.autocomplete_refreshing,
+    autocomplete_error: state.places.autocomplete_error,
+    autocomplete_loaded: state.places.autocomplete_loaded,
   }
 }
 
-export default connect(state => ( mapStateToProps), { getPlaces, setSearchPlace, setErrorLocation })(Search);
+export default connect(state => ( mapStateToProps), { deleteAutocomplete, getPlaces, setSearchPlace, setErrorLocation, getAutocomplete })(Search);

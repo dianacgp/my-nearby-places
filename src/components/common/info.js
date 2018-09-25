@@ -92,10 +92,9 @@ export default class Hours extends Component {
     };
   }
   openUrl = (url) => {
-    console.log('en open url', url)
+
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
-        //Linking.openURL(url);
         Actions.modal_webview({url: url});
       } else {
         console.log('Don\'t know how to open URI: ' + url);

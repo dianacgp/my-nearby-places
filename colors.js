@@ -16,9 +16,9 @@ const colors = {
   grayMedium: "#BDBCC1",
   graySmedium: "#7D7D7D",
   grayDark: "#6b6767",
-  badge: "#f29243",
-  link: "#7D7D7D",
-  price: "#96c944",
+  badge: "#D11E48",
+  link: "#A1C5AB",
+  price: "#A1C5AB",
   open: '#3DBE66',
   closed: '#E76162',
 

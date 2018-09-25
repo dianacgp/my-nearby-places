@@ -20,6 +20,7 @@
     "react-native-progress": "^3.5.0",
     "react-native-router-flux": "^4.0.1",
     "react-native-simple-modal": "^9.0.1",
+    "react-native-tab-view": "^1.0.2",
     "react-native-vector-icons": "^5.0.0",
     "react-navigation": "^2.16.0",
     "react-redux": "^5.0.7",

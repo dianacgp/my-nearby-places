@@ -8,7 +8,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import storageFilter from 'redux-storage-decorator-filter';
 import { createMiddleware as createStorageMiddleware, createLoader } from 'redux-storage';
 import isomorphicFetch from 'isomorphic-fetch';
-import { GET_SUGGESTIONS_FULFILLED, GET_PLACES_FULFILLED } from './places/actions'
+import { RECOMMENTATIONS_FOOD_FULFILLED, GET_PLACES_FULFILLED } from './places/actions'
 
 const apiUrl = 'https://api.foursquare.com/v2/';
 const client_id = '5WCPOCQ4245Q0KBQRVNXVPSOMTX5S2ZRCAHVNNRHVYFKEPCE';
@@ -19,10 +19,6 @@ const injectMiddleware = deps => ({ dispatch, getState }) => next => action =>
     : action
   );
 
-const responseMiddleware = ({ dispatch, getState }) => next => action => {
-  console.log(action);
-};
-
 const configureMiddleware = (composeWithDevTools, options) => {
   const engineKey = 'my-nearvy-places';
   const engine = createEngine && createEngine(engineKey);
@@ -30,8 +26,8 @@ const configureMiddleware = (composeWithDevTools, options) => {
   let decoratedEngine;
   if (engine) {
     decoratedEngine = storageFilter(engine, [
-      'redux-storage:connexa',
-      ['places', 'suggestions'],
+      'my-nearvy-places',
+      ['places', 'food'],
     ], [
       'blacklisted-key',    // attributes not update
     ]);
@@ -49,7 +45,7 @@ const configureMiddleware = (composeWithDevTools, options) => {
     storage.createMiddleware(decoratedEngine, [], 
       [ 
         GET_PLACES_FULFILLED,
-        GET_SUGGESTIONS_FULFILLED,
+        RECOMMENTATIONS_FOOD_FULFILLED,
       ]),
     promiseMiddleware({ promiseTypeSuffixes: ['PENDING', 'FULFILLED', 'REJECTED'] })
 
@@ -59,7 +55,6 @@ const configureMiddleware = (composeWithDevTools, options) => {
     applyMiddleware(...middlewares),
   ];
 
-  console.log('NODE_ENV: ' + process.env.NODE_ENV + '  __DEV__: ' + __DEV__);
 
   return composeWithDevTools(...enhancers);
 };

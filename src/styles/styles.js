@@ -20,7 +20,16 @@ export default StyleSheet.create({
     borderBottomWidth: 0,
     borderBottomColor: 'black'
   },
+  tabBarStyle: {
+    backgroundColor: 'white',
+  },
+  tabBarSelectedItemStyle: {
+    backgroundColor: 'gray',
+  },
   //common
+  column: {
+    flexDirection: 'column',
+  },
   row: {
     flexDirection: 'row',
   },
@@ -31,9 +40,10 @@ export default StyleSheet.create({
   flex: {
     flex: 1,
   },
-  containerListHome: {
-    height: height + 100,
+  minContainerList: {
+    minHeight: 300,
   },
+
   //suggestions
   containerSuggestions: {
     flexDirection: 'row',
@@ -160,6 +170,7 @@ export default StyleSheet.create({
   },
   buttonPrincipal: {
     justifyContent: 'center',
+    paddingVertical: 10,
   },
   textButtonPrincipal: {
     color: colors.principal,

@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     flexDirection: 'column',
+    marginRight: 10,
   },
 
   name: {
@@ -31,6 +32,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 5,
     fontSize: 14,
+
+  },
+  nameRating: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
   imagePlace: {
@@ -55,8 +61,9 @@ const styles = StyleSheet.create({
 
 });
 
-export default class CardSuggestion extends Component {
-  
+export default class CardPlace extends Component {
+
+
   render(){
 
     const { item, index } = this.props;
@@ -65,19 +72,26 @@ export default class CardSuggestion extends Component {
       <TouchableOpacity 
         key={index} 
         style={styles.containerItem}
-        onPress={()=> {Actions.modal_place({item: item})}}>
+        onPress={()=> {Actions.modal_place({idVenue: item.venue.id})}}>
+      
         <View style={styles.bodyItem}>
           <View 
             style={styles.body}
             >
-            <Text style={styles.name}>{item.venue.name}</Text>
+            <View style={styles.nameRating}>
+              {item.rating &&  
+              <View style={[basicStyles.rating, basicStyles.center]}>
+                <Text style={basicStyles.textRating}>{item.rating}</Text>
+              </View>
+              }
+              <Text style={[styles.name, basicStyles.column]}>{item.venue.name}</Text>
+            </View>
             <View style={basicStyles.row}>
               {item.venue.location &&
                 <Text style={basicStyles.textVerySmall}>{General.getLocation(item.venue.location)}  <Text style={basicStyles.textBold} onPress={()=> {this.props.set({openMap: true, place: item.venue})}} >( Open in Maps )</Text></Text>
               }
              
-            </View> 
-            <Categories  place={item.venue}/> 
+            </View>
           </View>
           <View>
             { item.photo !== undefined ? 
@@ -89,6 +103,8 @@ export default class CardSuggestion extends Component {
             }
           </View>
         </View>
+         
+        <Categories  place={item.venue}/> 
         <Snippets snippets={item.snippets}/>
       </TouchableOpacity>
     )

@@ -2,8 +2,8 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 14649,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "packagerPid": 25922,
+  "expoServerNgrokUrl": "https://uk-maj.dianacgp1280.my-nearby-places.exp.direct",
+  "packagerNgrokUrl": "https://packager.uk-maj.dianacgp1280.my-nearby-places.exp.direct",
+  "ngrokPid": 25936
 }

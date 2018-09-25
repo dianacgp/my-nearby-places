@@ -51,12 +51,14 @@ class Sort extends Component {
               <Text style={ !filters.has('sortByDistance') ? styles.textFilterActive : styles.textFilterInactive}>Rating</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={this.closeModal}
-            style={basicStyles.buttonPrincipal}
-            >
-              <Text style={basicStyles.textButtonPrincipal}>Close</Text>
-          </TouchableOpacity> 
+          <View style={basicStyles.center}>
+            <TouchableOpacity
+              onPress={this.closeModal}
+              style={basicStyles.buttonPrincipal}
+              >
+                <Text style={basicStyles.textButtonPrincipal}>Apply</Text>
+            </TouchableOpacity> 
+          </View>
             
       </ScrollView>
       );

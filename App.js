@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from './src/reducers/configureStore';
-import Scenes from './src/components/scenes';
+import Scenes from './src/components/scenes/scenes';
 import createEngine from 'redux-storage-engine-reactnativeasyncstorage';
 const store = configureStore();
 const engineKey = 'my-nearvy-places';
