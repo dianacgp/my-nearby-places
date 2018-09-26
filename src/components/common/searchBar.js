@@ -7,7 +7,7 @@ import colors from '../../../colors'
 import basicStyles from '../../styles/styles';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const styles =  StyleSheet.create({
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import basicStyles from '../../../styles/styles';
 import styles from './styles';

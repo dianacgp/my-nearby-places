@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { View, InteractionManager, Text } from 'react-native';
+import { View, InteractionManager, Image, TouchableOpacity } from 'react-native';
 import { setErrorLocation, setLL } from '../reducers/places/actions';
 import { connect } from 'react-redux';
 import styles from '../styles/styles';
 import { Actions } from 'react-native-router-flux';
 import colors from '../../colors'
 import Message from './common/message';
-import Modal from "react-native-simple-modal";
 import Spinner from 'react-native-loading-spinner-overlay';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { Constants, Location, Permissions } from 'expo';
+const splash = require('../../assets/splash.png');
 
 class ValidateLocation extends Component {
   constructor(props) {
@@ -84,7 +83,6 @@ class ValidateLocation extends Component {
   }
 
   render() {
-    console.log(Actions.routes)
 
     const {  errorMessage, spinner } = this.state;
     if (spinner){
@@ -92,17 +90,22 @@ class ValidateLocation extends Component {
     }
     return (
       <View style={styles.flex}>
-
         <View>
           <Spinner visible={this.state.spinner} />
         </View>
-        {errorMessage !== null &&
+        {errorMessage !== null ?
           <Message 
             messageError={errorMessage.toString()} 
             textReload='Try Again' 
             error={true}
             reload={this.componentDidMount.bind(this)}
           />
+        :
+        <TouchableOpacity 
+          onPress={this.componentDidMount.bind(this)}
+          >
+          <Image source={splash} style={styles.splash} resizeMethod={'resize'}/>
+        </TouchableOpacity>
         }
       </View>
     );

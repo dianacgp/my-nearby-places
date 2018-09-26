@@ -1,10 +1,8 @@
 import React, {   Component } from 'react';
-import { Text, View, WebView, Dimensions, StyleSheet, Platform, TouchableOpacity, Clipboard, Linking } from 'react-native';
+import { View, WebView, Dimensions } from 'react-native';
 import colors from '../../../colors';
 import * as Progress from 'react-native-progress';
 const { width } = Dimensions.get('window');
-import Icon from 'react-native-vector-icons/Ionicons';
-import basicStyles from '../../styles/styles';
 
 export default class Web_View extends Component {
 

@@ -179,6 +179,10 @@ export default StyleSheet.create({
     color: colors.principal,
     fontSize: 18,
   },
+  splash: {
+    height: height,
+    width: width,
+  },
   //padding and margin 
   marginBottomSmall: {
     marginBottom: 5,

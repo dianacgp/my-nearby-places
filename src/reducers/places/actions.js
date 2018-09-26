@@ -5,11 +5,9 @@ export const RECOMMENTATIONS_COFFEE = 'RECOMMENTATIONS_COFFEE';
 export const RECOMMENTATIONS_DRINKS = 'RECOMMENTATIONS_DRINKS';
 export const RECOMMENTATIONS_ARTS = 'RECOMMENTATIONS_ARTS';
 export const RECOMMENTATIONS_SHOPS = 'RECOMMENTATIONS_SHOPS';
-export const GET_SUGGESTIONS_FULFILLED = 'GET_SUGGESTIONS_FULFILLED';
 export const AUTOCOMPLETE  = 'AUTOCOMPLETE';
 export const SET_SEARCH_PLACE  = 'SET_SEARCH_PLACE';
 export const SET_ERROR_LOCATION  = 'SET_ERROR_LOCATION';
-export const DELETE_AUTOCOMPLETE  = 'DELETE_AUTOCOMPLETE';
 export const SET_LL  = 'SET_LL';
 
 export function setLL(value) {
@@ -22,11 +20,6 @@ export function setErrorLocation(value) {
   return {
     type: SET_ERROR_LOCATION,
     payload: value
-  };
-}
-export function deleteAutocomplete() {
-  return {
-    type: DELETE_AUTOCOMPLETE,
   };
 }
 export function setSearchPlace(value) {

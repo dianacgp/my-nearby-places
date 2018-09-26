@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { Platform, ToastAndroid, BackHandler, Linking, PushNotificationIOS, AppState } from 'react-native';
-import configureStore from './src/reducers/configureStore';
+import { BackHandler, AppState } from 'react-native';
 import scenes from './src/components/scenes/scenes';
 import styles from './src/styles/styles';
-import { Actions, Router, Reducer, ActionConst } from 'react-native-router-flux';
+import { Actions, Router, Reducer } from 'react-native-router-flux';
 import colors from './colors'
 
 const reducerCreate = params => { 

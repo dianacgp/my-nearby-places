@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {  Text, View, ScrollView, TouchableOpacity, Button } from 'react-native';
+import {  Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import colors from '../../../colors'
 import basicStyles from '../../styles/styles';

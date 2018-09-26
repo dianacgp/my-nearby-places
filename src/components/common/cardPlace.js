@@ -95,7 +95,7 @@ export default class CardPlace extends Component {
           </View>
           <View>
             { item.photo !== undefined ? 
-            <Image  style={styles.imagePlace} source={{ uri: item.photo.prefix + '200x200' + item.photo.suffix }} />
+            <Image  resizeMethod={'resize'} style={styles.imagePlace} source={{ uri: item.photo.prefix + '200x200' + item.photo.suffix }} />
             :
             <View style={styles.withoutImage}>
               <Icon name="picture-o" size={30} color={colors.grayLighter} />

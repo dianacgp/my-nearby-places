@@ -1,7 +1,6 @@
 import React from 'react';
 import { BackAndroid, Platform, StyleSheet, Text, View, TouchableOpacity, BackHandler, ToastAndroid, Alert } from 'react-native';
-import CardStackStyleInterpolator from 'react-navigation-stack/dist/views/StackView/StackViewStyleInterpolator';
-import { Scene, Router, Actions, Reducer, ActionConst, Overlay, Tabs, Modal, Drawer, Stack, Lightbox } from 'react-native-router-flux';
+import { Scene, Actions, ActionConst, Overlay, Tabs, Modal } from 'react-native-router-flux';
 import Food from '../suggestions/food';
 import Coffee from '../suggestions/coffee';
 import Drinks from '../suggestions/drinks';

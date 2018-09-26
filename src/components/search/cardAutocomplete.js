@@ -74,11 +74,11 @@ export default class CardAutocomplete extends Component {
           { item.object &&
             item.object.icon ? 
             <View style={styles.image}>
-              <Image  style={styles.icon} source={{ uri: item.object.icon.prefix + '30' + item.object.icon.name }} />
+              <Image  resizeMethod={'resize'} style={styles.icon} source={{ uri: item.object.icon.prefix + '30' + item.object.icon.name }} />
             </View>
             :
              item.object.bestPhoto ?
-            <Image  style={styles.image} source={{ uri: item.object.bestPhoto.prefix + '200x200' + item.object.bestPhoto.suffix }} />
+            <Image resizeMethod={'resize'} style={styles.image} source={{ uri: item.object.bestPhoto.prefix + '200x200' + item.object.bestPhoto.suffix }} />
             :
             <View style={styles.image}>
               <Icon name="picture-o" size={20} color={colors.grayLighter} />

@@ -10,7 +10,6 @@ const InitialState = Record({
   places_loaded: false,
   places_error: false,
 
-
   food: new List(),
   food_refreshing: false,
   food_loaded: false,
@@ -71,12 +70,6 @@ export default function places_reducer(state = initialState, action) {
         ll: action.payload,
       });
       
-      //------------------------------------------------
-      case `${actions.DELETE_AUTOCOMPLETE}`:
-
-      return state.merge({
-        autocomplete: new List() ,
-      });
     //------------------------------------------------
 
     case `${actions.SET_SEARCH_PLACE}`:

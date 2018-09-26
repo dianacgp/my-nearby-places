@@ -1,25 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getSuggestions } from '../../reducers/places/actions';
-import styles from '../../styles/styles';
-import { Actions } from 'react-native-router-flux';
-import colors from '../../../colors'
 import Suggestions from './suggestions'
-import OpenMap from '../common/openMap';
 
-
-class Home extends Component {
-
-  state = {
-    error: false,
-  }
-
-
-
-  
-  set = ( state ) => {
-    this.setState(state);
-  }
+class Arts extends Component {
 
 
   render() {
@@ -53,4 +37,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(state => ( mapStateToProps), { getSuggestions })(Home);
+export default connect(state => ( mapStateToProps), { getSuggestions })(Arts);

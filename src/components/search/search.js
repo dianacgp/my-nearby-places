@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, FlatList, TouchableOpacity, Image, StyleSheet, Button, InteractionManager, Text } from 'react-native';
-import { getPlaces, setSearchPlace, setErrorLocation, getAutocomplete, deleteAutocomplete } from '../../reducers/places/actions';
+import { View, FlatList, TouchableOpacity, InteractionManager, Text } from 'react-native';
+import { getPlaces, setSearchPlace, setErrorLocation, getAutocomplete } from '../../reducers/places/actions';
 import { connect } from 'react-redux';
 import basicStyles from '../../styles/styles';
 import { Actions } from 'react-native-router-flux';
@@ -58,6 +58,7 @@ class Search extends Component {
           errorMessage: 'Permission to access location was denied',
         });
       }
+      Actions.refresh({hideNavBar: false});
       Location.getCurrentPositionAsync({})
       .then((location) => {
         this.setState({
@@ -65,6 +66,7 @@ class Search extends Component {
           ll:  location.coords.latitude + ',' + location.coords.longitude,
           spinner: false,
         });
+        Actions.refresh({hideNavBar: true});
         this.props.setErrorLocation(false);
       })
       .catch((error) => {
@@ -72,10 +74,12 @@ class Search extends Component {
           errorMessage: error,
           spinner: false
         });
+        Actions.refresh({hideNavBar: false});
         this.props.setErrorLocation(true);
       })
     })
     .catch((error) => {
+      Actions.refresh({hideNavBar: false});
       this.props.setErrorLocation(true);
       this.setState({
         errorMessage: error,
@@ -99,8 +103,10 @@ class Search extends Component {
   }
   
   onChangeText = (text) => {
-    const { ll} = this.state;
-
+    const { ll } = this.state;
+    if (text.trim.length === 0 ) {
+      this.props.setSearchPlace(text);
+    }
     this.setState({
       searchTerm: text,
     });
@@ -350,4 +356,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(state => ( mapStateToProps), { deleteAutocomplete, getPlaces, setSearchPlace, setErrorLocation, getAutocomplete })(Search);
+export default connect(state => ( mapStateToProps), { getPlaces, setSearchPlace, setErrorLocation, getAutocomplete })(Search);

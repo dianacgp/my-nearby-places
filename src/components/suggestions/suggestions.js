@@ -23,7 +23,6 @@ export default class ViewSuggestions extends Component {
     });
   }
 
-
   constructor(props) {
     super(props);
     this.state = {
@@ -31,12 +30,15 @@ export default class ViewSuggestions extends Component {
        
     };
   }
+
   set = (state) => {
     this.setState(state)
   }
+
   setOpenMap = (value) => {
     this.setState({openMap: value}) 
   }
+
   searchSuggestions = () => {
     const { section } = this.props;
 
@@ -70,10 +72,8 @@ export default class ViewSuggestions extends Component {
   render() {
     const { suggestions,  refreshing} = this.props;
 
-
     return (
       <View style={styles.flex}>
-      
         <OpenMap open={this.state.openMap} place={this.state.place} setOpenMap={this.setOpenMap}/>
         <FlatList
           style={styles.containerListHome}
@@ -88,8 +88,6 @@ export default class ViewSuggestions extends Component {
           }
       />  
       </View>
-
     );
-
   }
 }
