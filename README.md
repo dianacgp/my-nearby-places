@@ -29,6 +29,7 @@ Install the [Expo] client app on your iOS or Android phone and connect to the sa
    [Expo]: <https://expo.io/>
    [Download Android APK]:<https://drive.google.com/file/d/194gbNZ_2UgoFsGjpvGFqmUU9mKIcUocT/view?usp=sharing/>
    
+   
 ### Start the build
 Run expo build:android or expo build:ios. If you don't already have a packager running for this project, exp will start one for you.
 
