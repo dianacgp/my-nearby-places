@@ -20,7 +20,7 @@ const injectMiddleware = deps => ({ dispatch, getState }) => next => action =>
   );
 
 const configureMiddleware = (composeWithDevTools, options) => {
-  const engineKey = 'my-nearvy-places';
+  const engineKey = 'redux-storage:myNearbyPlaces';
   const engine = createEngine && createEngine(engineKey);
 
   let decoratedEngine;

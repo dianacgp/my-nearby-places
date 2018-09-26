@@ -12,6 +12,9 @@ export default StyleSheet.create({
     backgroundColor: colors.background,
     flex: 1,
   },
+  titleStyle: {
+    color: colors.principal,
+  },
   navigationBarStyle: {
     backgroundColor: 'white',
   },

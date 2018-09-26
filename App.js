@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { AppRegistry, ToastAndroid, BackAndroid, Keyboard, Platform, SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import { Provider } from 'react-redux';
+import Home from './home';
 import configureStore from './src/reducers/configureStore';
-import Scenes from './src/components/scenes/scenes';
-import createEngine from 'redux-storage-engine-reactnativeasyncstorage';
+import * as storage from 'redux-storage'
+import createEngine from 'redux-storage-engine-reactnativeasyncstorage';;
+
 const store = configureStore();
-const engineKey = 'my-nearvy-places';
+const engineKey = 'redux-storage:myNearbyPlaces';
 const engine = createEngine && createEngine(engineKey);
 
-export default class App extends React.Component {
+export default class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      backPress: false,
+      routes: ['home'],
+      initialized: false,
+      loaded: false,
+    };
+    
+    this.store = configureStore();
+     
+ 
+  }
+  
   render() {
-    return (
-      <Provider store={store}>
-        <Scenes/>
-      </Provider>
+    const { initialized, loaded } = this.state;
+
+  
+    return (      
+      <Provider store={this.store}>        
+        <Home/>        
+      </Provider>     
     );
   }
 }
+
+
