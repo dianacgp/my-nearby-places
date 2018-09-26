@@ -17,7 +17,7 @@ To run the project:
 git clone https://dianacgp@bitbucket.org/dianacgp/my-nearby-places.git
 $ cd my-nearby-places
 $ npm install
-$ expo start
+$ npm start
 ```
 
 Install the [Expo] client app on your iOS or Android phone and connect to the same wireless network as your computer. On Android, use the Expo app to scan the QR code from your terminal to open your project. On iOS, follow on-screen instructions to get a link.
