@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { BackHandler, AppState } from 'react-native';
+import { BackHandler, ToastAndroid } from 'react-native';
 import scenes from './src/components/scenes/scenes';
 import styles from './src/styles/styles';
 import { Actions, Router, Reducer } from 'react-native-router-flux';
 import colors from './colors'
-
+let backLoginScene = false;
 const reducerCreate = params => { 
   const defaultReducer = new Reducer(params); 
   return (state, action) => { 
@@ -26,23 +26,16 @@ export default class Home extends Component {
 
 	onExitApp = () => {
 
-    let _this = this;
-
-    if (Actions.state.routes[0].index === 0) {
-      if(!this.state.backPress) {
-        this.setState({ backPress: this.state.backPress + 1 })
-        this.setState({ backPress: true });
-        setTimeout(function () {
-          _this.setState({ backPress: false });
-        }, 3000);
+    if (Actions.currentScene == "_food") {
+      if (backLoginScene == false) {
+        ToastAndroid.show("Click back again to exit.", ToastAndroid.SHORT);
+        backLoginScene = !backLoginScene;
         return true;
       } else {
+        backLoginScene = false;
         BackHandler.exitApp();
-        return false;
       }
-    } else {
-      Actions.pop();
-      return true;
+      return false;
     }
   }
 
@@ -51,7 +44,7 @@ export default class Home extends Component {
     return (
      
       <Router
-        backAndroidHandler={() => this.onExitApp()}
+        backAndroidHandler={this.onExitApp}
         createReducer={reducerCreate}
 		  	titleStyle={styles.titleStyle}
 		    createReducer={reducerCreate} 

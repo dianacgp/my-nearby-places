@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, InteractionManager, Image, TouchableOpacity } from 'react-native';
+import { View, InteractionManager, Image, TouchableOpacity, Text } from 'react-native';
 import { setErrorLocation, setLL } from '../reducers/places/actions';
 import { connect } from 'react-redux';
 import styles from '../styles/styles';
@@ -8,13 +8,13 @@ import colors from '../../colors'
 import Message from './common/message';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Constants, Location, Permissions } from 'expo';
-const splash = require('../../assets/splash.png');
+const icon = require('../../assets/icon.png');
 
 class ValidateLocation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      spinner: true,
+      spinner: false,
       location: null,
       errorMessage: null,
       error: false,
@@ -40,7 +40,6 @@ class ValidateLocation extends Component {
         });
       }
       this.setState({
-      
         spinner: false
       });
       Location.getCurrentPositionAsync({})
@@ -85,9 +84,7 @@ class ValidateLocation extends Component {
   render() {
 
     const {  errorMessage, spinner } = this.state;
-    if (spinner){
-      this.renderLoading();
-    }
+
     return (
       <View style={styles.flex}>
         <View>
@@ -101,11 +98,18 @@ class ValidateLocation extends Component {
             reload={this.componentDidMount.bind(this)}
           />
         :
-        <TouchableOpacity 
-          onPress={this.componentDidMount.bind(this)}
-          >
-          <Image source={splash} style={styles.splash} resizeMethod={'resize'}/>
-        </TouchableOpacity>
+          <View style={[styles.flex, styles.center]}>
+          <TouchableOpacity 
+            onPress={this.componentDidMount.bind(this)}
+            style={styles.center}
+            >
+            <Image source={icon} style={styles.icon} resizeMethod={'resize'}
+            />
+            { !spinner &&
+            <Text style={styles.textNormal}>Touch the image to reload the app</Text>
+            }
+          </TouchableOpacity>
+        </View>
         }
       </View>
     );

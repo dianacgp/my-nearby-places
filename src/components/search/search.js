@@ -58,7 +58,6 @@ class Search extends Component {
           errorMessage: 'Permission to access location was denied',
         });
       }
-      Actions.refresh({hideNavBar: false});
       Location.getCurrentPositionAsync({})
       .then((location) => {
         this.setState({
@@ -66,7 +65,6 @@ class Search extends Component {
           ll:  location.coords.latitude + ',' + location.coords.longitude,
           spinner: false,
         });
-        Actions.refresh({hideNavBar: true});
         this.props.setErrorLocation(false);
       })
       .catch((error) => {
@@ -74,12 +72,10 @@ class Search extends Component {
           errorMessage: error,
           spinner: false
         });
-        Actions.refresh({hideNavBar: false});
         this.props.setErrorLocation(true);
       })
     })
     .catch((error) => {
-      Actions.refresh({hideNavBar: false});
       this.props.setErrorLocation(true);
       this.setState({
         errorMessage: error,
@@ -279,12 +275,14 @@ class Search extends Component {
         return (
           <View style={basicStyles.flex}>
             {errorMessage !== null &&
-              <Message 
-                messageError={errorMessage.toString()} 
-                textReload='Try Again' 
-                error={true}
-                reload={this.componentDidMount.bind(this)}
-              />
+              <View style={[basicStyles.flex, basicStyles.center]}>
+                <Message 
+                  messageError={errorMessage.toString()} 
+                  textReload='Try Again' 
+                  error={true}
+                  reload={this.componentDidMount.bind(this)}
+                />
+              </View>
             }
 
             <OpenMap open={this.state.openMap} place={this.state.place} setOpenMap={this.setOpenMap}/>

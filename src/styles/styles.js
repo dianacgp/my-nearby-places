@@ -183,6 +183,10 @@ export default StyleSheet.create({
     height: height,
     width: width,
   },
+  icon: {
+    height: 100,
+    width: 100,
+  },
   //padding and margin 
   marginBottomSmall: {
     marginBottom: 5,
