@@ -51,7 +51,6 @@ export default class CardAutocomplete extends Component {
     const { item } = this.props;
 
     if (item.type === 'minivenue') {
-      this.props.set({searchTerm: item.text})
       Actions.modal_place({idVenue: item.object.id})
     }else{
       if (item.type === 'query') {

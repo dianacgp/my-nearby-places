@@ -26,7 +26,7 @@ export default class Home extends Component {
 
 	onExitApp = () => {
 
-    if (Actions.currentScene == "_food") {
+    if (Actions.currentScene === "_food" || Actions.currentScene === "location" ) {
       if (backLoginScene == false) {
         ToastAndroid.show("Click back again to exit.", ToastAndroid.SHORT);
         backLoginScene = !backLoginScene;
