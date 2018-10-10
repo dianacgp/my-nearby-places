@@ -7,8 +7,9 @@ import createEngine from 'redux-storage-engine-reactnativeasyncstorage';
 import promiseMiddleware from 'redux-promise-middleware';
 import storageFilter from 'redux-storage-decorator-filter';
 import { createMiddleware as createStorageMiddleware, createLoader } from 'redux-storage';
-import isomorphicFetch from 'isomorphic-fetch';
+
 import { RECOMMENTATIONS_FOOD_FULFILLED, GET_PLACES_FULFILLED } from './places/actions'
+const axios = require('axios');
 
 const apiUrl = 'https://api.foursquare.com/v2/';
 const client_id = '5WCPOCQ4245Q0KBQRVNXVPSOMTX5S2ZRCAHVNNRHVYFKEPCE';
@@ -20,6 +21,7 @@ const injectMiddleware = deps => ({ dispatch, getState }) => next => action =>
   );
 
 const configureMiddleware = (composeWithDevTools, options) => {
+
   const engineKey = 'redux-storage:myNearbyPlaces';
   const engine = createEngine && createEngine(engineKey);
 
@@ -36,7 +38,7 @@ const configureMiddleware = (composeWithDevTools, options) => {
   const middlewares = [
     injectMiddleware({
       engine: engine,
-      fetch: isomorphicFetch,
+      fetch: axios,
       date: () => Moment().format('YYYY-MM-DD'),
       apiUrl: () => apiUrl,
       authorization: 'client_id=' + client_id + '&client_secret=' + client_secret,

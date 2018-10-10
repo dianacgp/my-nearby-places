@@ -1,9 +1,9 @@
 {
-  "devToolsPort": 19003,
+  "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19004,
-  "packagerPid": 40325,
+  "packagerPort": 19001,
+  "packagerPid": 18984,
   "expoServerNgrokUrl": "https://8u-gbb.dianacgp1280.my-nearby-places.exp.direct",
   "packagerNgrokUrl": "https://packager.8u-gbb.dianacgp1280.my-nearby-places.exp.direct",
-  "ngrokPid": 40339
+  "ngrokPid": 18999
 }
