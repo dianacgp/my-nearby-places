@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Popup } from 'react-native-map-link'
+var I18n = require('../translations/i18n');
 
 export default class OpenMap extends Component {
 
@@ -18,9 +19,9 @@ export default class OpenMap extends Component {
             latitude: place.location.lat,
             longitude: place.location.lng,
             title: place.name,
-            dialogTitle: 'Open in Maps',
+            dialogTitle: I18n.t('openInMaps'),
             dialogMessage: place.name,
-            cancelText: 'Cancel'
+            cancelText: I18n.t('cancel')
           }}
         />
          

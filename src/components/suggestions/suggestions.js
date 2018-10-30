@@ -7,6 +7,7 @@ import CardPlace from '../common/cardPlace';
 import OpenMap from '../common/openMap';
 import Message from '../common/message';
 import Spinner from '../common/spinner';
+var I18n = require('../translations/i18n');
 
 export default class ViewSuggestions extends Component {
 
@@ -63,7 +64,7 @@ export default class ViewSuggestions extends Component {
             <Message error={true} reload={this.searchSuggestions}/>
         :
           suggestions.size === 0 && suggestions_loaded &&
-            <Message message={'we did not find results for ' + section}/>
+            <Message message={I18n.t('noResultsFor').replace('{SEARCH}', section)}/>
         }
       </View>
     )

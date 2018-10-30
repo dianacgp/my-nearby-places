@@ -14,6 +14,8 @@ import Photos from './common/photos/photos';
 import OpenMap from './common/openMap';
 import Message from './common/message';
 
+var I18n = require('./translations/i18n');
+
 class Place extends Component {
 
   constructor(props) {
@@ -103,7 +105,7 @@ class Place extends Component {
               </View>
               <Text style={[styles.textSmall, styles.marginBottomSmall]}>
                 {place.location.formattedAddress} 
-                <Text style={[styles.textSmall, styles.textBold]} onPress={() => {this.setState({ openMap: true }) }}> (Open in Maps)
+                <Text style={[styles.textSmall, styles.textBold]} onPress={() => {this.setState({ openMap: true }) }}> ({I18n.t('openInMaps')})
                 </Text>
               </Text>
               <Categories place={place}/>

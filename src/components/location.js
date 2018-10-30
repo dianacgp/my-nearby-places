@@ -9,6 +9,7 @@ import Message from './common/message';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Constants, Location, Permissions } from 'expo';
 const icon = require('../../assets/icon.png');
+var I18n = require('./translations/i18n');
 
 class ValidateLocation extends Component {
   constructor(props) {
@@ -93,7 +94,7 @@ class ValidateLocation extends Component {
         {errorMessage !== null ?
           <Message 
             messageError={errorMessage.toString()} 
-            textReload='Try Again' 
+            textReload={I18n.t('tryAgain')}
             error={true}
             reload={this.componentDidMount.bind(this)}
           />
@@ -106,7 +107,7 @@ class ValidateLocation extends Component {
             <Image source={icon} style={styles.icon} resizeMethod={'resize'}
             />
             { !spinner &&
-            <Text style={styles.textNormal}>Touch the image to reload the app</Text>
+            <Text style={styles.textNormal}>{I18n.t('touchLogo')}</Text>
             }
           </TouchableOpacity>
         </View>

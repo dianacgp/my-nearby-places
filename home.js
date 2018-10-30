@@ -3,7 +3,10 @@ import { BackHandler, ToastAndroid } from 'react-native';
 import scenes from './src/components/scenes/scenes';
 import styles from './src/styles/styles';
 import { Actions, Router, Reducer } from 'react-native-router-flux';
-import colors from './colors'
+import colors from './colors';
+import { connect } from 'react-redux';
+var I18n = require('./src/components/translations/i18n');
+
 let backLoginScene = false;
 const reducerCreate = params => { 
   const defaultReducer = new Reducer(params); 
@@ -12,7 +15,7 @@ const reducerCreate = params => {
       return defaultReducer(state, action); 
     }; 
   };
-export default class Home extends Component {
+class Home extends Component {
 
 	 constructor(props) {
     super(props);
@@ -23,7 +26,13 @@ export default class Home extends Component {
     };
 
   }
+  componentWillReceiveProps = (nextProps) => {
+    console.log('recibe algo', nextProps)
+    if (nextProps.languageApp !== null){
+      I18n.locale = nextProps.languageApp;
+    }
 
+  }
 	onExitApp = () => {
 
     if (Actions.currentScene === "_food" || Actions.currentScene === "location" ) {
@@ -58,3 +67,6 @@ export default class Home extends Component {
     );
   }
 }
+export default connect(state => ({
+  languageApp: state.places.languageApp,
+}),)(Home);

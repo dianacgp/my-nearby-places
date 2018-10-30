@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import colors from '../../../colors'
 import basicStyles from '../../styles/styles';
 import styles from './styles';
+var I18n = require('../translations/i18n');
 
 class Sort extends Component {
 
@@ -23,9 +24,11 @@ class Sort extends Component {
     } 
     this.props.set({filters})
   }
-  closeModal = () => {
+  closeModal = (apply) => {
     this.props.set({showSort: false});
-    this.props.searchPlaces();
+    if ( apply ){
+      this.props.searchPlaces();
+    }
   }
 
   render() {
@@ -43,20 +46,26 @@ class Sort extends Component {
             <TouchableOpacity 
               style={filters.has('sortByDistance') ? styles.filterActive : styles.filterInactive} 
               onPress={this.setFilter.bind(this, 'sortByDistance', {category: 'sortByDistance', value: 1})}>
-              <Text style={ filters.has('sortByDistance') ? styles.textFilterActive : styles.textFilterInactive}>Distance</Text>
+              <Text style={ filters.has('sortByDistance') ? styles.textFilterActive : styles.textFilterInactive}>{I18n.t('distance')}</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={!filters.has('sortByDistance') ? styles.filterActive : styles.filterInactive} 
               onPress={this.setFilter.bind(this, 'sortByDistance', {category: 'sortByDistance', value: 1})}>
-              <Text style={ !filters.has('sortByDistance') ? styles.textFilterActive : styles.textFilterInactive}>Rating</Text>
+              <Text style={ !filters.has('sortByDistance') ? styles.textFilterActive : styles.textFilterInactive}>{I18n.t('rating')}</Text>
             </TouchableOpacity>
           </View>
-          <View style={basicStyles.center}>
+          <View style={[basicStyles.center, basicStyles.rowSpaceBetween]}>
             <TouchableOpacity
-              onPress={this.closeModal}
+              onPress={this.closeModal.bind(this, false)}
               style={basicStyles.buttonPrincipal}
               >
-                <Text style={basicStyles.textButtonPrincipal}>Apply</Text>
+                <Text style={basicStyles.textNormal}>{I18n.t('cancel').toUpperCase()}</Text>
+            </TouchableOpacity> 
+            <TouchableOpacity
+              onPress={this.closeModal.bind(this, true)}
+              style={basicStyles.buttonPrincipal}
+              >
+                <Text style={basicStyles.textButtonPrincipal}>{I18n.t('apply').toUpperCase()}</Text>
             </TouchableOpacity> 
           </View>
             

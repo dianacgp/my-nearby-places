@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import colors from '../../../colors'
 import basicStyles from '../../styles/styles';
 import styles from './styles';
+var I18n = require('../translations/i18n');
 
 const prices = [
   {
@@ -38,9 +39,11 @@ class Filters extends Component {
     } 
     this.props.set({filters})
   }
-  closeModal = () => {
+  closeModal = ( apply ) => {
     this.props.set({showFilters: false});
-    this.props.searchPlaces();
+    if ( apply ) {
+      this.props.searchPlaces();
+    }
   }
 
   render() {
@@ -73,16 +76,22 @@ class Filters extends Component {
                onPress={this.setFilter.bind(this, 'openNow', {category: 'openNow', value: 1})}>
               <Text 
                 style={filters.has('openNow') ? styles.textFilterActive : styles.textFilterInactive}
-                >Yes</Text>
+                >{I18n.t('yes')}</Text>
             </TouchableOpacity>
           </View>
-          <View style={basicStyles.center}>
+          <View style={[basicStyles.center, basicStyles.rowSpaceBetween]}>
             <TouchableOpacity
-              onPress={this.closeModal}
+              onPress={this.closeModal.bind(this, false)}
               style={basicStyles.buttonPrincipal}
               >
-                <Text style={basicStyles.textButtonPrincipal}>Apply</Text>
-              </TouchableOpacity> 
+                <Text style={basicStyles.textNormal}>{I18n.t('cancel').toUpperCase()}</Text>
+            </TouchableOpacity> 
+            <TouchableOpacity
+              onPress={this.closeModal.bind(this, true)}
+              style={basicStyles.buttonPrincipal}
+              >
+                <Text style={basicStyles.textButtonPrincipal}>{I18n.t('apply').toUpperCase()}</Text>
+            </TouchableOpacity> 
           </View>
         </ScrollView>
       );

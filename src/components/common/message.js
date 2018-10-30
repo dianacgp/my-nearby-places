@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../../../colors';
 import basicStyles from '../../styles/styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+var I18n = require('../translations/i18n');
 
 const styles = StyleSheet.create({
 
@@ -41,7 +42,7 @@ export default class Message extends Component {
                 messageError
                 : 
                 error ?
-                'It seems you have problems with your connection'
+                I18n.t('problemsConnection')
                 :
                 message
               }
@@ -51,7 +52,7 @@ export default class Message extends Component {
               onPress={reload}
               style={[basicStyles.buttonPrincipal, styles.button]}
             >
-              <Text style={basicStyles.textButtonPrincipal}> {textReload ? textReload : "Try again"}</Text>
+              <Text style={basicStyles.textButtonPrincipal}> {textReload ? textReload : I18n.t('tryAgain')}</Text>
             </TouchableOpacity> 
             }
           </View>    

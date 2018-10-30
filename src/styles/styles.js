@@ -36,6 +36,10 @@ export default StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
+  rowSpaceBetween: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   center: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -190,6 +194,42 @@ export default StyleSheet.create({
   //padding and margin 
   marginBottomSmall: {
     marginBottom: 5,
-  }
+  },
+  //menu
+  textMenu: {
+    color: colors.principal,
+    fontSize: 18,
+    lineHeight: 18, 
+    letterSpacing: 1,
+  },
+
+  textItemMenu: {
+    color: colors.text,
+    fontSize: 16,
+    lineHeight: 16, 
+    letterSpacing: 1,
+  },
+  itemMenu: {
+    backgroundColor: 'white',
+    paddingVertical: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomColor: colors.grayLight,
+    borderBottomWidth: 1,
+    flex: 0,
+  },
+  menu: {
+    padding: 40,
+    flex: 0,
+  },
+textMoreLess: {
+  color: colors.text,
+  fontSize: 12,
+  lineHeight: 13,
+  fontWeight: 'normal',
+  textAlign: 'right',
+  marginTop: 5,
+  marginBottom: 15,
+},
 
 });

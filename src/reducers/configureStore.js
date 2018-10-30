@@ -15,7 +15,9 @@ export default function configureStore(options) {
 	const middleware = configureMiddleware(composeEnhancers, options);
 	const reducer = configureReducer({});
 
+	console.log('options', options)
 	const resetOnLogout = (reducer, initialState) => (state, action) => {
+
 
 	  return reducer(state, action);
 	};

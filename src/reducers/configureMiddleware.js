@@ -8,7 +8,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import storageFilter from 'redux-storage-decorator-filter';
 import { createMiddleware as createStorageMiddleware, createLoader } from 'redux-storage';
 
-import { RECOMMENTATIONS_FOOD_FULFILLED, GET_PLACES_FULFILLED } from './places/actions'
+import { RECOMMENTATIONS_FOOD_FULFILLED, GET_PLACES_FULFILLED, SET_LANGUAGE_APP_FULFILLED } from './places/actions'
 const axios = require('axios');
 
 const apiUrl = 'https://api.foursquare.com/v2/';
@@ -22,6 +22,7 @@ const injectMiddleware = deps => ({ dispatch, getState }) => next => action =>
 
 const configureMiddleware = (composeWithDevTools, options) => {
 
+  console.log(' configureMiddleware options', options)
   const engineKey = 'redux-storage:myNearbyPlaces';
   const engine = createEngine && createEngine(engineKey);
 
@@ -30,6 +31,7 @@ const configureMiddleware = (composeWithDevTools, options) => {
     decoratedEngine = storageFilter(engine, [
       'my-nearvy-places',
       ['places', 'food'],
+      ['places', 'languageApp'],
     ], [
       'blacklisted-key',    // attributes not update
     ]);
@@ -48,6 +50,7 @@ const configureMiddleware = (composeWithDevTools, options) => {
       [ 
         GET_PLACES_FULFILLED,
         RECOMMENTATIONS_FOOD_FULFILLED,
+        SET_LANGUAGE_APP_FULFILLED
       ]),
     promiseMiddleware({ promiseTypeSuffixes: ['PENDING', 'FULFILLED', 'REJECTED'] })
 

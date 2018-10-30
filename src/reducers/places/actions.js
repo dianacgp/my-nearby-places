@@ -9,6 +9,14 @@ export const AUTOCOMPLETE  = 'AUTOCOMPLETE';
 export const SET_SEARCH_PLACE  = 'SET_SEARCH_PLACE';
 export const SET_ERROR_LOCATION  = 'SET_ERROR_LOCATION';
 export const SET_LL  = 'SET_LL';
+export const SET_LANGUAGE_APP_FULFILLED = 'SET_LANGUAGE_APP_FULFILLED';
+
+export function setLanguageApp(languageApp) {
+  return {
+    type: 'SET_LANGUAGE_APP_FULFILLED',
+    payload: { languageApp }
+  };
+}
 
 export function setLL(value) {
   return {

@@ -7,6 +7,7 @@ import Snippets from './snippets';
 import basicStyles from '../../styles/styles';
 import { Actions } from 'react-native-router-flux';
 const General = require('../../functions/general.js');
+var I18n = require('../translations/i18n');
 
 const styles = StyleSheet.create({
 
@@ -88,7 +89,7 @@ export default class CardPlace extends Component {
             </View>
             <View style={basicStyles.row}>
               {item.venue.location &&
-                <Text style={basicStyles.textVerySmall}>{General.getLocation(item.venue.location)}  <Text style={basicStyles.textBold} onPress={()=> {this.props.set({openMap: true, place: item.venue})}} >( Open in Maps )</Text></Text>
+                <Text style={basicStyles.textVerySmall}>{General.getLocation(item.venue.location)}  <Text style={basicStyles.textBold} onPress={()=> {this.props.set({openMap: true, place: item.venue})}} >( {I18n.t('openInMaps')} )</Text></Text>
               }
              
             </View>

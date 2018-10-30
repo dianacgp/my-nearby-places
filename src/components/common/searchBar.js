@@ -8,6 +8,7 @@ import basicStyles from '../../styles/styles';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 const { width } = Dimensions.get('window');
+var I18n = require('../translations/i18n');
 
 const styles =  StyleSheet.create({
 
@@ -122,7 +123,7 @@ class SearchBar extends Component {
             <View style={styles.containerIconText}>
               <Icon name="search" color={colors.grayMedium} size={16} style={styles.iconSearchBar} />
               <Text style={styles.textSearch}
-              >What are you looking ...?</Text>
+              >{I18n.t('whatAreLooking')}</Text>
             </View>
           </TouchableOpacity>
         )
@@ -155,7 +156,7 @@ class SearchBar extends Component {
               {...this.props.Button}
               style={basicStyles.buttonPrincipal}
               >
-                <Text style={basicStyles.textButtonPrincipal}>Search</Text>
+                <Text style={basicStyles.textButtonPrincipal}>{I18n.t('search')}</Text>
             </TouchableOpacity>
             </View>
           </View>

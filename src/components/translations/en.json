@@ -1,0 +1,22 @@
+{
+	"en": "English",
+  "es": "Spanish",
+	"whatAreLooking": "What are you looking for ... ?",
+	"search": "Search",
+	"changeLanguage": "Change Language",
+	"openInMaps": "Open in maps",
+	"quickSuggestions": "Quick suggestions",
+	"noResults": "We do not find results near you",
+	"tryAgain": "Try Again",
+	"touchLogo": "Touch the image to reload the app",
+	"noResultsFor": "We did not find results for {SEARCH}",
+	"distance": "Distance",
+	"rating": "Rating",
+	"yes": "Yes",
+	"apply": "Apply",
+	"cancel": "Cancel",
+	"problemsConnection":  "It seems you have problems with your connection",
+	"more": "More . . .",
+	"less": "Less . . .",
+
+}

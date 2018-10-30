@@ -18,6 +18,7 @@ import styles from './styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const dismissKeyboard = require('dismissKeyboard');
 import { Constants, Location, Permissions } from 'expo';
+var I18n = require('../translations/i18n');
 
 class Search extends Component {
 
@@ -177,7 +178,7 @@ class Search extends Component {
         refreshing={this.props.places_refreshing}
         TextInput={{
           onChangeText: this.onChangeText, 
-          placeholder: "What are you looking ... ?",
+          placeholder: I18n.t('whatAreLooking'),
           value: this.state.searchTerm,
           autoFocus: false,
         }}
@@ -199,7 +200,7 @@ class Search extends Component {
             <Message error={true} reload={this.searchPlaces.bind(this, this.state.searchTerm)}/>
         :
           places.size === 0 && places_loaded &&
-            <Message message='We do not find results near you'/>
+            <Message message={I18n.t('noResults')}/>
         }
       </View>
     )
@@ -215,7 +216,7 @@ class Search extends Component {
             <Message error={true} reload={this.searchPlaces.bind(this, this.state.searchTerm)}/>
         :
           autocomplete.size === 0 && autocomplete_loaded &&
-            <Message message='We do not find results near you'/>
+            <Message message={I18n.t('quickSuggestions')}/>
         }
       </View>
     )
@@ -240,7 +241,7 @@ class Search extends Component {
     );
   }
   renderHeaderAutocomplete = () => {
-    return <Text style={[basicStyles.textNormal, basicStyles.textCenter, basicStyles.bold, ]}>Quick suggestions</Text>
+    return <Text style={[basicStyles.textNormal, basicStyles.textCenter, basicStyles.bold, ]}>{I18n.t('quickSuggestions')}</Text>
   }
 
   render() {
@@ -278,7 +279,7 @@ class Search extends Component {
               <View style={[basicStyles.flex, basicStyles.center]}>
                 <Message 
                   messageError={errorMessage.toString()} 
-                  textReload='Try Again' 
+                  textReload={I18n.t('tryAgain')} 
                   error={true}
                   reload={this.componentDidMount.bind(this)}
                 />

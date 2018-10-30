@@ -47,6 +47,9 @@ const InitialState = Record({
   error_location: false,
 
   ll: null,
+  
+  languageApp: null,
+  
 
 
 });
@@ -340,6 +343,11 @@ export default function places_reducer(state = initialState, action) {
       place: null,
 
     });
+
+    case 'SET_LANGUAGE_APP_FULFILLED':
+      return state.merge({
+        languageApp: action.payload.languageApp,
+      });
 
   }
   return state;
