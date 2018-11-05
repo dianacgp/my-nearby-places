@@ -14,7 +14,7 @@ You can search for restaurants, shopping centers, pharmacies, bakeries, among ot
 To run the project:
 
 ```sh
-git clone https://dianacgp@bitbucket.org/dianacgp/my-nearby-places.git
+git clone https://github.com/dianacgp/my-nearby-places.git
 $ cd my-nearby-places
 $ npm install
 $ npm start
@@ -37,8 +37,10 @@ Run expo build:android or expo build:ios. If you don't already have a packager r
 ### Link to download Android APK
 [Download Android APK]
 
-###Link to open app with [Expo]
- [Open with expo]
+### Link to open app with [Expo]
+[Open with expo]
+
+
 
 
 
