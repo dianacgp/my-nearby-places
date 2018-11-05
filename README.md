@@ -28,6 +28,7 @@ Install the [Expo] client app on your iOS or Android phone and connect to the sa
    [redux]: <https://redux.js.org/>
    [Expo]: <https://expo.io/>
    [Download Android APK]:<https://drive.google.com/file/d/194gbNZ_2UgoFsGjpvGFqmUU9mKIcUocT/view?usp=sharing/>
+   [Open with expo]:<https://expo.io/@dianacgp1280/MyNearbyPlaces/>
    
    
 ### Start the build
@@ -35,5 +36,10 @@ Run expo build:android or expo build:ios. If you don't already have a packager r
 
 ### Link to download Android APK
 [Download Android APK]
+
+###Link to open app with [Expo]
+ [Open with expo]
+
+
 
 
